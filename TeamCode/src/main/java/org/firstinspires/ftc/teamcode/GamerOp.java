@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+        import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+        import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @TeleOp
 public class GamerOp extends OpMode {
@@ -30,6 +30,8 @@ public class GamerOp extends OpMode {
         robot.RightRear  .setPower( Drive + Strafe - Turn);
 */
 //------------------------------Intake/Belt-------------------------------------------------------\\
+
+
 
     }
 
