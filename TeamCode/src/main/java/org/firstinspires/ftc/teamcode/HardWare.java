@@ -8,8 +8,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-
-
 //------------------------------ActualLoop--------------------------------------------------------\\
 
 @Disabled
@@ -21,7 +19,7 @@ public class HardWare extends OpMode {
     public DcMotor LeftRear   = null;
     public DcMotor RightFront = null;
     public DcMotor RightRear  = null;
-    public Servo   Belt       = null;
+    public Servo   NameHere   = null;
 
 //------------------------------InitLoop----------------------------------------------------------\\
 
