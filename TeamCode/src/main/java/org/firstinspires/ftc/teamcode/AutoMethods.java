@@ -17,9 +17,9 @@ public class AutoMethods extends LinearOpMode {
     public DcMotor LeftRear = null;
     public DcMotor RightFront = null;
     public DcMotor RightRear = null;
-    double WHEEL_CIRCUMFERENCE = 3.78;
+    double WHEEL_CIRCUMFERENCE = 11.87;
     double ENCODER_TICKS_PER_ROTATION = 537.6;
-    double COUNTS_PER_INCH = 142;
+    double COUNTS_PER_INCH = 6367;
     private ElapsedTime runtime = new ElapsedTime();
 
     @Override
@@ -49,7 +49,8 @@ public class AutoMethods extends LinearOpMode {
         RightRear .setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         waitForStart();
-        encoderDrive(.5,5,5,4);
+
+        encoderDrive(.25,5,5,4);
         telemetry.addData("EncoderLF",LeftFront .getCurrentPosition());
         telemetry.addData("EncoderLR",LeftRear  .getCurrentPosition());
         telemetry.addData("EncoderRF",RightFront.getCurrentPosition());
