@@ -28,10 +28,10 @@ public class HardWare extends OpMode {
 
 //------------------------------PhoneHardWareMap--------------------------------------------------\\
 
-        LeftRear    = hardwareMap.dcMotor.get (" Back_Left_Drive   ");
-        LeftFront   = hardwareMap.dcMotor.get (" Front_Left_Drive  ");
-        RightFront  = hardwareMap.dcMotor.get (" Front_Right_Drive ");
-        RightRear   = hardwareMap.dcMotor.get (" Back_Right_Drive  ");
+        LeftRear    = hardwareMap.dcMotor.get (" BackLeft   ");
+        LeftFront   = hardwareMap.dcMotor.get (" FrontLeft  ");
+        RightFront  = hardwareMap.dcMotor.get (" FrontRight ");
+        RightRear   = hardwareMap.dcMotor.get (" BackRight  ");
 
 //------------------------------Direction---------------------------------------------------------\\
 
