@@ -34,6 +34,12 @@ public class GamerOp extends OpMode {
         LeftRear  .setDirection(DcMotorSimple.Direction.REVERSE);
         RightFront.setDirection(DcMotorSimple.Direction.FORWARD);
         RightRear .setDirection(DcMotorSimple.Direction.FORWARD);
+
+        LeftFront .setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        LeftRear  .setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        RightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        RightRear .setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
     }
 
 //------------------------------OpMode------------------------------------------------------------\\
@@ -52,6 +58,12 @@ public class GamerOp extends OpMode {
         RightFront .setPower( + Drive + Strafe + Turn);
         RightRear  .setPower( + Drive - Strafe + Turn);
 
+        //telemetry.addData("TicksLF",LeftFront.getCurrentPosition());
+        //telemetry.addData("TicksLR",LeftRear.getCurrentPosition());
+        //telemetry.addData("TicksRF",RightRear.getCurrentPosition());
+        //telemetry.addData("TicksRR",RightRear.getCurrentPosition());
+
+        //telemetry.update();
 //------------------------------Intake/Belt-------------------------------------------------------\\
 
 

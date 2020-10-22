@@ -21,6 +21,7 @@
 
 package org.firstinspires.ftc.teamcode.vision;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -34,14 +35,12 @@ import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-//import org.openftc.easyopencv.OpenCvInternalCamera;
 import org.openftc.easyopencv.OpenCvPipeline;
 
-@TeleOp
+@Autonomous
 public class RingSense extends LinearOpMode
 {
     OpenCvCamera webcam;
-    //OpenCvInternalCamera phoneCam;
     SkystoneDeterminationPipeline pipeline;
 
     @Override
@@ -63,7 +62,7 @@ public class RingSense extends LinearOpMode
             @Override
             public void onOpened()
             {
-                webcam.startStreaming(320,240, OpenCvCameraRotation.UPRIGHT);
+                webcam.startStreaming(320,240, OpenCvCameraRotation.UPSIDE_DOWN);
             }
         });
 
@@ -92,9 +91,7 @@ public class RingSense extends LinearOpMode
             NONE
         }
 
-        /*
-         * Some color constants
-         */
+
         static final Scalar BLUE = new Scalar(0, 0, 255);
         static final Scalar GREEN = new Scalar(0, 255, 0);
 
@@ -166,6 +163,7 @@ public class RingSense extends LinearOpMode
                 position = RingPosition.ONE;
             }else{
                 position = RingPosition.NONE;
+
             }
 
             Imgproc.rectangle(
