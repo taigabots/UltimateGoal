@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 //------------------------------ActualLoop--------------------------------------------------------\\
 
-@Disabled
+
 public class HardWare extends OpMode {
 
 //------------------------------DC/Servo----------------------------------------------------------\\
@@ -28,18 +28,24 @@ public class HardWare extends OpMode {
 
 //------------------------------PhoneHardWareMap--------------------------------------------------\\
 
-        LeftRear    = hardwareMap.dcMotor.get (" BackLeft   ");
-        LeftFront   = hardwareMap.dcMotor.get (" FrontLeft  ");
-        RightFront  = hardwareMap.dcMotor.get (" FrontRight ");
-        RightRear   = hardwareMap.dcMotor.get (" BackRight  ");
+        LeftRear   = hardwareMap.dcMotor.get(" BackLeft   ");
+        LeftFront  = hardwareMap.dcMotor.get(" FrontLeft  ");
+        RightFront = hardwareMap.dcMotor.get(" FrontRight ");
+        RightRear  = hardwareMap.dcMotor.get(" BackRight  ");
 
 //------------------------------Direction---------------------------------------------------------\\
-
-        LeftFront .setDirection(DcMotorSimple.Direction.REVERSE);
-        LeftRear  .setDirection(DcMotorSimple.Direction.REVERSE);
+        //Reverse spins motors to the right Forward spins motors to the left
+        LeftFront.setDirection (DcMotorSimple.Direction.FORWARD);
+        LeftRear.setDirection  (DcMotorSimple.Direction.FORWARD);
         RightFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        RightRear .setDirection(DcMotorSimple.Direction.REVERSE);
+        RightRear.setDirection (DcMotorSimple.Direction.REVERSE);
 
+//------------------------------Encoder---------------------------------------------------------\\
+
+        LeftFront .setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        LeftRear  .setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        RightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        RightRear .setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     }
 

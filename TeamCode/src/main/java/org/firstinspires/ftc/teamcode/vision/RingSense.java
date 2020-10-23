@@ -163,7 +163,6 @@ public class RingSense extends LinearOpMode
                 position = RingPosition.ONE;
             }else{
                 position = RingPosition.NONE;
-
             }
 
             Imgproc.rectangle(

@@ -66,7 +66,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 
 @Autonomous(name="EncoderTesting", group="Pushbot")
-
+@Disabled
 public class EncoderTesting extends LinearOpMode {
 
     public DcMotor LeftFront  = null;

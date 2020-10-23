@@ -6,22 +6,51 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.vision.RingSense;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
+import org.openftc.easyopencv.OpenCvWebcam;
+
 
 @Autonomous
 public class AutoMethods extends LinearOpMode {
 
-    public DcMotor LeftFront = null;
-    public DcMotor LeftRear = null;
+
+
+
+    public DcMotor LeftFront  = null;
+    public DcMotor LeftRear   = null;
     public DcMotor RightFront = null;
-    public DcMotor RightRear = null;
+    public DcMotor RightRear  = null;
     double WHEEL_CIRCUMFERENCE = 3.78;
     double ENCODER_TICKS_PER_ROTATION = 537.6;
-    private ElapsedTime runtime = new ElapsedTime();
+    public OpenCvWebcam  webcam;
+    RingSense.SkystoneDeterminationPipeline pipeline;
+
 
     @Override
     public void runOpMode() throws InterruptedException {
+
+
         telemetry.addData("status","Initialized");
         telemetry.update();
+
+//------------------------------WebcamSetup-------------------------------------------------------\\
+
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+        webcam.openCameraDevice();
+
+        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
+        {
+            @Override
+            public void onOpened()
+            {
+                webcam.startStreaming(320,240, OpenCvCameraRotation.UPSIDE_DOWN);
+            }
+        });
 
 //------------------------------PhoneHardWareMap--------------------------------------------------\\
 
@@ -44,10 +73,18 @@ public class AutoMethods extends LinearOpMode {
         RightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         RightRear .setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        waitForStart();
 
-        Strafe(22,-.5);
-        Drive(55,-.5);
+
+        waitForStart();
+        while (opModeIsActive())
+        {
+            telemetry.addData("Analysis", pipeline.getAnalysis());
+            telemetry.update();
+
+            // Don't burn CPU cycles busy-looping in this sample
+            sleep(50);
+        }
+
         telemetry.addData("EncoderLF",LeftFront .getCurrentPosition());
         telemetry.addData("EncoderLR",LeftRear  .getCurrentPosition());
         //telemetry.addData("EncoderRF",RightFront.getCurrentPosition());
@@ -57,7 +94,6 @@ public class AutoMethods extends LinearOpMode {
     }
 
 //------------------------------OpMode------------------------------------------------------------\\
-
 
     public void Drive(int Inch, double Power)
         {
@@ -84,11 +120,11 @@ public class AutoMethods extends LinearOpMode {
             LeftRear  .setPower(0);
             RightRear .setPower(0);
 
-
-
-
         }
+    public void GyroTurn(double angle, double Power)
+    {
 
+    }
     public void Strafe(double Inch, double Power) {
         int DistanceTicks = ConvertInchesToRotations(Inch);
 
@@ -104,14 +140,11 @@ public class AutoMethods extends LinearOpMode {
             telemetry.addData("Target"   , DistanceTicks);
             telemetry.addData("EncoderLF",LeftFront .getCurrentPosition());
             telemetry.addData("EncoderLR",LeftRear  .getCurrentPosition());
-            // telemetry.addData("EncoderRF",RightFront.getCurrentPosition());
+
             telemetry.addData("EncoderRR",RightRear .getCurrentPosition());
             telemetry.update();
         }
-        LeftFront .setPower(0);
-        RightFront.setPower(0);
-        LeftRear  .setPower(0);
-        RightRear .setPower(0);
+        Off();
 
 
     }
