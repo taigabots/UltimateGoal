@@ -35,18 +35,22 @@ public class GamerOp extends OpMode {
 //------------------------------Direction---------------------------------------------------------\\
 
         //Reverse spins motors to the right Forward spins motors to the left
-        LeftFront .setDirection (DcMotorSimple.Direction.REVERSE);
+        LeftFront .setDirection (DcMotorSimple.Direction.FORWARD);
         LeftRear  .setDirection (DcMotorSimple.Direction.FORWARD);
-        RightFront.setDirection (DcMotorSimple.Direction.FORWARD);
+        RightFront.setDirection (DcMotorSimple.Direction.REVERSE);
         RightRear .setDirection (DcMotorSimple.Direction.REVERSE);
         //Intake    .setDirection (DcMotorSimple.Direction.REVERSE);
         //Shooter   .setDirection (DcMotorSimple.Direction.REVERSE);
 
+        LeftFront .setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        LeftRear  .setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        RightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        RightRear .setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        LeftFront .setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        LeftRear  .setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        LeftFront .setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        LeftRear  .setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         RightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        RightRear .setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        RightRear .setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     }
 
@@ -61,11 +65,18 @@ public class GamerOp extends OpMode {
         double Strafe = +gamepad1.left_stick_x ;
         double Turn   = +gamepad1.right_stick_x;
 
-        LeftFront  .setPower( + Drive - Strafe - Turn);
-        LeftRear   .setPower( + Drive + Strafe - Turn);
-        RightFront .setPower( + Drive + Strafe + Turn);
-        RightRear  .setPower( + Drive - Strafe + Turn);
+        LeftFront  .setPower( + Drive - Strafe + Turn);
+        LeftRear   .setPower( + Drive + Strafe + Turn);
+        RightFront .setPower( + Drive + Strafe - Turn);
+        RightRear  .setPower( + Drive - Strafe - Turn);
 
+        telemetry.addData("Lf",LeftFront  .getCurrentPosition());
+        telemetry.addData("LR",LeftRear   .getCurrentPosition());
+        telemetry.addData("RF",RightFront .getCurrentPosition());
+        telemetry.addData("RR",RightRear  .getCurrentPosition());
+        telemetry.addData("Y  " ,gamepad1.left_stick_y);
+        telemetry.addData("X " ,gamepad1.left_stick_x);
+        telemetry.update();
 
 //------------------------------Intake/Belt-------------------------------------------------------\\
 
