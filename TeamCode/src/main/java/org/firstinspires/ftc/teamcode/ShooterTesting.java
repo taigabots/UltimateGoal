@@ -23,7 +23,7 @@ public class ShooterTesting extends OpMode {
 
         if (gamepad1.dpad_down)
         {
-           Wheel.setPower(.7);
+           Wheel.setPower(1);
         }
         else
             {

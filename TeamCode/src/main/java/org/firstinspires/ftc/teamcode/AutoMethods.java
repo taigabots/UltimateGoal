@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.vision.RingSense;
+import org.firstinspires.ftc.teamcode.vision.RingSense1;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
@@ -37,7 +37,7 @@ public class AutoMethods extends LinearOpMode {
     double ONE  = 100;
     double NONE = 0  ;
     public OpenCvWebcam  webcam;
-    RingSense.SkystoneDeterminationPipeline pipeline;
+    RingSense1.SkystoneDeterminationPipeline pipeline;
 
 
 
@@ -150,7 +150,7 @@ public class AutoMethods extends LinearOpMode {
         int avg1;
 
         // Volatile since accessed by OpMode thread w/o synchronization
-        private volatile RingSense.SkystoneDeterminationPipeline.RingPosition position = RingSense.SkystoneDeterminationPipeline.RingPosition.FOUR;
+        private volatile RingSense1.SkystoneDeterminationPipeline.RingPosition position = RingSense1.SkystoneDeterminationPipeline.RingPosition.FOUR;
 
         /*
          * This function takes the RGB frame, converts to YCrCb,
@@ -184,13 +184,13 @@ public class AutoMethods extends LinearOpMode {
                     BLUE, // The color the rectangle is drawn in
                     2); // Thickness of the rectangle lines
 
-            position = RingSense.SkystoneDeterminationPipeline.RingPosition.FOUR; // Record our analysis
+            position = RingSense1.SkystoneDeterminationPipeline.RingPosition.FOUR; // Record our analysis
             if(avg1 > FOUR_RING_THRESHOLD){
-                position = RingSense.SkystoneDeterminationPipeline.RingPosition.FOUR;
+                position = RingSense1.SkystoneDeterminationPipeline.RingPosition.FOUR;
             }else if (avg1 > ONE_RING_THRESHOLD){
-                position = RingSense.SkystoneDeterminationPipeline.RingPosition.ONE;
+                position = RingSense1.SkystoneDeterminationPipeline.RingPosition.ONE;
             }else{
-                position = RingSense.SkystoneDeterminationPipeline.RingPosition.NONE;
+                position = RingSense1.SkystoneDeterminationPipeline.RingPosition.NONE;
             }
 
             Imgproc.rectangle(

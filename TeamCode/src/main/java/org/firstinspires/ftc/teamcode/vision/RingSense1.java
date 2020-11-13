@@ -18,12 +18,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package org.firstinspires.ftc.teamcode.vision;
+
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+//import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
@@ -40,7 +40,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvPipeline;
 
 @Autonomous
-public class RingSense extends LinearOpMode
+public class RingSense1 extends LinearOpMode
 {
     OpenCvCamera webcam;
     SkystoneDeterminationPipeline pipeline;
@@ -76,7 +76,7 @@ public class RingSense extends LinearOpMode
 
         LeftFront .setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         LeftRear  .setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        RightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        RightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER  );
         RightRear .setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
@@ -101,43 +101,53 @@ public class RingSense extends LinearOpMode
         });
 
         waitForStart();
-        //test movement
 
-
-
-            while (opModeIsActive()){
+        while (opModeIsActive()){
             telemetry.addData("Analysis", pipeline.getAnalysis());
             telemetry.addData("Position", pipeline.position);
             telemetry.update();
             sleep(50);
-            }
-            if (pipeline.getAnalysis()>140)
-            {
+        }
 
-                telemetry.addData("work","yes");
-                telemetry.update();
-                sleep(500);
 
-                Drive(5,.1);
 
-                //FOUR
-            }else if (pipeline.getAnalysis()>135)
-            {
+        if (pipeline.getAnalysis()>pipeline.FOUR_RING_THRESHOLD)
+        {
 
-                telemetry.addData("work","kinda");
-                telemetry.update();
-                sleep(500);
+            webcam.stopStreaming();
+            telemetry.addData("square","Far");
+            telemetry.addData("Ring", "FOUR");
+            telemetry.update();
+            //Strafe(20,-.2);
+            //Drive(104,-.2);
 
-                Strafe(5,-.1);
+        }
+        else if (pipeline.getAnalysis()>pipeline.ONE_RING_THRESHOLD)
+        {
+            webcam.stopStreaming();
+            telemetry.addData("square","middle ");
+            telemetry.addData("Rings", "One");
+            telemetry.update();
+            //Strafe(20,-.1);
+            //Drive (64,-.2);
+            //Strafe(24,.1);
+            //Drive(20,-.2);
+        }
+        else
+        {
 
-                //ONE
-            }else
-            {
-                telemetry.addData("work","no");
-                telemetry.update();
+            webcam.stopStreaming();
+            telemetry.addData("square ","close");
+            telemetry.addData( "Rings","None");
+            telemetry.update();
+            //Strafe(24,-.2);
+            //Drive (56,-.2);
+        }
 
-                //NONE
-            }
+
+
+
+
 
 
 
@@ -167,13 +177,13 @@ public class RingSense extends LinearOpMode
         /*
          * The core values which define the location and size of the sample regions
          */
-        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(181,98);
+        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(140,118);
 
-        static final int REGION_WIDTH = 35;
-        static final int REGION_HEIGHT = 25;
+        static final int REGION_WIDTH = 40;
+        static final int REGION_HEIGHT = 30;
 
-        final int FOUR_RING_THRESHOLD = 150;
-        final int ONE_RING_THRESHOLD = 135;
+        final int FOUR_RING_THRESHOLD = 144;
+        final int ONE_RING_THRESHOLD = 138;
 
         Point region1_pointA = new Point(
                 REGION1_TOPLEFT_ANCHOR_POINT.x,
@@ -228,6 +238,7 @@ public class RingSense extends LinearOpMode
             position = RingPosition.FOUR; // Record our analysis
             if(avg1 > FOUR_RING_THRESHOLD){
                 position = RingPosition.FOUR;
+
             }else if (avg1 > ONE_RING_THRESHOLD){
                 position = RingPosition.ONE;
             }else{
@@ -266,7 +277,6 @@ public class RingSense extends LinearOpMode
             telemetry.addData("Target"   , DistanceTicks);
             telemetry.addData("EncoderLF",LeftFront .getCurrentPosition());
             telemetry.addData("EncoderLR",LeftRear  .getCurrentPosition());
-            telemetry.addData("EncoderRF",RightFront.getCurrentPosition());
             telemetry.addData("EncoderRR",RightRear .getCurrentPosition());
             telemetry.update();
         }
@@ -300,7 +310,6 @@ public class RingSense extends LinearOpMode
             telemetry.addData("Target"   , DistanceTicks);
             telemetry.addData("EncoderLF",LeftFront .getCurrentPosition());
             telemetry.addData("EncoderLR",LeftRear  .getCurrentPosition());
-
             telemetry.addData("EncoderRR",RightRear .getCurrentPosition());
             telemetry.update();
         }
