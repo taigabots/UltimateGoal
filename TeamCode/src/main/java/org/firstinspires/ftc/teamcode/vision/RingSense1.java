@@ -91,6 +91,12 @@ public class RingSense1 extends LinearOpMode
         RightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER  );
         RightRear .setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        LeftFront  .setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        LeftRear   .setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        RightFront .setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        RightRear  .setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
 
         parameters.mode = BNO055IMU.SensorMode.IMU;
@@ -148,6 +154,10 @@ public class RingSense1 extends LinearOpMode
 
         resetAngle();
 
+
+
+
+
         if (pipeline.getAnalysis()>pipeline.FOUR_RING_THRESHOLD)
         {
 
@@ -155,13 +165,34 @@ public class RingSense1 extends LinearOpMode
             telemetry.addData("square","Far");
             telemetry.addData("Ring", "FOUR");
             telemetry.update();
-            Strafe(20,-.2);
-            Drive(90,-.2);
-            Drive(85,.2);
-            Strafe(36,.2);
-            Strafe(30,-.2);
-            Drive(90,-.2);
-            Drive(40,.2);
+            //drives off wall
+            Drive(5,-.6);
+            //strafes to line up with 4
+            Strafe(20,-.6);
+            sleep(1000);
+            //drives down to square
+            Drive(85,-.6);
+            //drives to shoot line
+            Drive(30,.6);
+            sleep(500);
+            //strafe to shoot
+            Strafe(37,.6);
+            sleep(500);
+            Drive(10,.5);
+            rotate(165,.75);
+            Strafe(3,.6);
+            //drives to 2nd wobble
+            Drive(35,-.6);
+            sleep(1000);
+            rotate(165,.5);
+            //strafes
+            Strafe(50,-.4);
+            resetAngle();
+             Strafe(5,.6);
+            //drives to drop
+            Drive(90,-.6);
+            Drive(40,.6);
+            Strafe(24,.6);
 
 
         }
@@ -206,6 +237,40 @@ public class RingSense1 extends LinearOpMode
 
 
 
+
+    }
+
+    public void Drive   (int Inch, double Power) {
+        int DistanceTicks = ConvertInchesToRotations(Inch);
+        ResetEncoders();
+
+
+
+        while (Math.abs(LeftFront.getCurrentPosition() )< DistanceTicks
+                && opModeIsActive())
+        {
+
+            telemetry.addData("Target"   , DistanceTicks);
+            telemetry.addData("EncoderLF",LeftFront .getCurrentPosition());
+            telemetry.addData("EncoderLR",LeftRear  .getCurrentPosition());
+            telemetry.addData("EncoderRR",RightRear .getCurrentPosition());
+            telemetry.addData("1 imu heading", lastAngles.firstAngle);
+            telemetry.addData("2 global heading", globalAngle);
+            telemetry.addData("3 correction", correction);
+            telemetry.update();
+
+            correction = checkDirection();
+
+            LeftFront .setPower(Power - correction);
+            RightFront.setPower(Power + correction);
+            LeftRear  .setPower(Power - correction);
+            RightRear .setPower(Power + correction);
+
+        }
+        LeftFront .setPower(0);
+        RightFront.setPower(0);
+        LeftRear  .setPower(0);
+        RightRear .setPower(0);
 
     }
 
@@ -313,31 +378,6 @@ public class RingSense1 extends LinearOpMode
 
     }
 
-    public void Drive   (int Inch, double Power) {
-        int DistanceTicks = ConvertInchesToRotations(Inch);
-
-        ResetEncoders();
-        correction = checkDirection();
-        LeftFront .setPower(Power - correction);
-        RightFront.setPower(Power + correction);
-        LeftRear  .setPower(Power - correction);
-        RightRear .setPower(Power + correction);
-        while (Math.abs(LeftFront.getCurrentPosition() )< DistanceTicks
-                && opModeIsActive())
-        {
-            telemetry.addData("Target"   , DistanceTicks);
-            telemetry.addData("EncoderLF",LeftFront .getCurrentPosition());
-            telemetry.addData("EncoderLR",LeftRear  .getCurrentPosition());
-            telemetry.addData("EncoderRR",RightRear .getCurrentPosition());
-            telemetry.update();
-        }
-        LeftFront .setPower(0);
-        RightFront.setPower(0);
-        LeftRear  .setPower(0);
-        RightRear .setPower(0);
-
-    }
-
     public void GyroTurn(double angle, double Power) {
         double thing = (angle / angle) * -1;
         LeftFront .setPower(Power * +thing);
@@ -440,7 +480,7 @@ public class RingSense1 extends LinearOpMode
         // The gain value determines how sensitive the correction is to direction changes.
         // You will have to experiment with your robot to get small smooth direction changes
         // to stay on a straight line.
-        double correction, angle, gain = .10;
+        double correction, angle, gain = .05;
 
         angle = getAngle();
 
@@ -452,6 +492,58 @@ public class RingSense1 extends LinearOpMode
         correction = correction * gain;
 
         return correction;
+    }
+    private void rotate(int degrees, double power)
+    {
+        double  leftPower, rightPower;
+
+        // restart imu movement tracking.
+        resetAngle();
+
+        // getAngle() returns + when rotating counter clockwise (left) and - when rotating
+        // clockwise (right).
+
+        if (degrees < 0)
+        {   // turn right.
+            leftPower = power;
+            rightPower = -power;
+
+        }
+        else if (degrees > 0)
+        {   // turn left.
+            leftPower = -power;
+            rightPower = power;
+        }
+        else return;
+
+        // set power to rotate.
+        LeftFront .setPower(leftPower);
+        RightFront.setPower(rightPower);
+        LeftRear  .setPower(leftPower);
+        RightRear .setPower(rightPower);
+        telemetry.addData("angle", getAngle());
+        telemetry.update();
+        // rotate until turn is completed.
+        if (degrees < 0)
+        {
+            // On right turn we have to get off zero first.
+            while (opModeIsActive() && getAngle() == 0) {}
+
+            while (opModeIsActive() && getAngle() > degrees) {}
+        }
+        else    // left turn.
+            while (opModeIsActive() && getAngle() < degrees) {}
+
+        // turn the motors off.
+        LeftFront .setPower(0);
+        RightFront.setPower(0);
+        LeftRear  .setPower(0);
+        RightRear .setPower(0);
+        // wait for rotation to stop.
+        sleep(1000);
+
+        // reset angle tracking on new heading.
+        resetAngle();
     }
 
 }
