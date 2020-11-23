@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode;
         import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
         import com.qualcomm.robotcore.hardware.DcMotor;
         import com.qualcomm.robotcore.hardware.DcMotorSimple;
+        import com.qualcomm.robotcore.hardware.Servo;
 
 
 @TeleOp
@@ -14,8 +15,10 @@ public class GamerOp extends OpMode {
     public DcMotor LeftRear   = null;
     public DcMotor RightFront = null;
     public DcMotor RightRear  = null;
-    //public DcMotor Intake     = null;
-    //public DcMotor Shooter    = null;
+    public DcMotor Intake     = null;
+    public DcMotor Shooter    = null;
+    public Servo   ShootAngle = null;
+    public Servo   ShooterArm = null;
 
 //------------------------------InitLoop----------------------------------------------------------\\
 
@@ -29,8 +32,8 @@ public class GamerOp extends OpMode {
         LeftFront   = hardwareMap.dcMotor.get (" FrontLeft  ");
         RightFront  = hardwareMap.dcMotor.get (" FrontRight ");
         RightRear   = hardwareMap.dcMotor.get (" BackRight  ");
-        //Intake      = hardwareMap.dcMotor.get ( "Intake     ");
-        //Shooter     = hardwareMap.dcMotor.get ( "Shooter    ");
+        Intake      = hardwareMap.dcMotor.get ( "Intake     ");
+        Shooter     = hardwareMap.dcMotor.get ( "Shooter    ");
 
 //------------------------------Direction---------------------------------------------------------\\
 
@@ -39,8 +42,8 @@ public class GamerOp extends OpMode {
         LeftRear  .setDirection (DcMotorSimple.Direction.FORWARD);
         RightFront.setDirection (DcMotorSimple.Direction.REVERSE);
         RightRear .setDirection (DcMotorSimple.Direction.REVERSE);
-        //Intake    .setDirection (DcMotorSimple.Direction.REVERSE);
-        //Shooter   .setDirection (DcMotorSimple.Direction.REVERSE);
+        Intake    .setDirection (DcMotorSimple.Direction.FORWARD);
+        Shooter   .setDirection (DcMotorSimple.Direction.REVERSE);
 
         LeftFront .setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         LeftRear  .setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -80,18 +83,23 @@ public class GamerOp extends OpMode {
 
 //------------------------------Intake/Belt-------------------------------------------------------\\
 
-        //Intake.setPower(+gamepad1.right_trigger);
-        //Intake.setPower(-gamepad1.left_trigger );
 
 //------------------------------Shooter-----------------------------------------------------------\\
 
-    if (gamepad1.a)
+       // double ShooterAngle = True
+
+    if (gamepad1.dpad_up)
     {
-        //Shooter.setPower(1);
+        double Angle     = ShootAngle.getPosition();
+        double TrueAngle = Angle + .1;
     }
-
+    if (gamepad1.dpad_down)
+    {
+        double Angle     = ShootAngle.getPosition();
+        double TrueAngle = Angle - .1;
+    }
+    //if (rueAngle )}
 
 
     }
-
 }
