@@ -545,7 +545,7 @@ public class RingSense1 extends LinearOpMode
         // reset angle tracking on new heading.
         resetAngle();
     }
-private void Ramps ()
-    {}
+    private void Ramps ()
+    {   }
 
 }
