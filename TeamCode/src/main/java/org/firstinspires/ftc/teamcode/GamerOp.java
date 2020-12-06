@@ -68,18 +68,28 @@ public class GamerOp extends OpMode {
         double Drive  = +gamepad1.left_stick_y ;
         double Strafe = +gamepad1.left_stick_x ;
         double Turn   = +gamepad1.right_stick_x;
+        double Speed  = 1;
 
-        LeftFront  .setPower( + Drive - Strafe + Turn);
-        LeftRear   .setPower( + Drive + Strafe + Turn);
-        RightFront .setPower( + Drive + Strafe - Turn);
-        RightRear  .setPower( + Drive - Strafe - Turn);
+        if (gamepad1.right_bumper)
+        {
+            Speed = .5;
+        }
+        else
+        {
+            Speed = 1;
+        }
 
-        /*telemetry.addData("Lf",LeftFront  .getCurrentPosition());
+        LeftFront  .setPower( + Drive - Strafe * Speed + Turn);
+        LeftRear   .setPower( + Drive + Strafe * Speed + Turn);
+        RightFront .setPower( + Drive - Strafe * Speed - Turn);
+        RightRear  .setPower( + Drive + Strafe * Speed - Turn);
+
+        telemetry.addData("Lf",LeftFront  .getCurrentPosition());
         telemetry.addData("LR",LeftRear   .getCurrentPosition());
         telemetry.addData("RF",RightFront .getCurrentPosition());
         telemetry.addData("RR",RightRear  .getCurrentPosition());
         telemetry.addData("Y ",gamepad1.left_stick_y);
-        telemetry.addData("X ",gamepad1.left_stick_x);*/
+        telemetry.addData("X ",gamepad1.left_stick_x);
         telemetry.update();
 
 //------------------------------Intake/Belt-------------------------------------------------------\\
@@ -122,13 +132,27 @@ public class GamerOp extends OpMode {
 
         if (gamepad1.dpad_up)
         {
-            ShootAngle.setPosition(.1);
+            ShootAngle.setPosition(0.7);
         }
         else if (gamepad1.dpad_down)
         {
-            ShootAngle.setPosition(0);
+            ShootAngle.setPosition(1);
         }
 
+//------------------------------Wobble------------------------------------------------------------\\
+
+        if(gamepad2.dpad_up)
+        {
+
+        }
+        else if (gamepad2.dpad_down)
+        {
+
+        }
+        else if(gamepad2.dpad_right)
+        {
+
+        }
 
     }
 }

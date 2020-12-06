@@ -79,16 +79,16 @@ public class RingSense1 extends LinearOpMode
 
 //------------------------------Direction---------------------------------------------------------\\
         //Reverse spins motors to the right Forward spins motors to the left
-        LeftFront.setDirection (DcMotorSimple.Direction.FORWARD);
-        LeftRear.setDirection  (DcMotorSimple.Direction.FORWARD);
-        RightFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        RightRear.setDirection (DcMotorSimple.Direction.REVERSE);
+        LeftFront .setDirection (DcMotorSimple.Direction.FORWARD);
+        LeftRear  .setDirection (DcMotorSimple.Direction.FORWARD);
+        RightFront.setDirection (DcMotorSimple.Direction.REVERSE);
+        RightRear .setDirection (DcMotorSimple.Direction.REVERSE);
 
 //------------------------------Encoder---------------------------------------------------------\\
 
         LeftFront .setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         LeftRear  .setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        RightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER  );
+        RightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         RightRear .setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         LeftFront  .setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -146,7 +146,7 @@ public class RingSense1 extends LinearOpMode
             @Override
             public void onOpened()
             {
-                webcam.startStreaming(320,240, OpenCvCameraRotation.UPSIDE_DOWN);
+                webcam.startStreaming(320,240, OpenCvCameraRotation.UPRIGHT);
             }
         });
 
@@ -165,34 +165,35 @@ public class RingSense1 extends LinearOpMode
             telemetry.addData("square","Far");
             telemetry.addData("Ring", "FOUR");
             telemetry.update();
+
             //drives off wall
-            Drive(5,-.6);
+            Drive(5,-.3);
             //strafes to line up with 4
-            Strafe(20,-.6);
+            Strafe(20,-.3);
             sleep(1000);
             //drives down to square
-            Drive(85,-.6);
+            Drive(85,-.3);
             //drives to shoot line
-            Drive(30,.6);
+            Drive(30,.3);
             sleep(500);
             //strafe to shoot
-            Strafe(37,.6);
+            Strafe(37,.3);
             sleep(500);
-            Drive(10,.5);
-            rotate(165,.75);
-            Strafe(3,.6);
+            Drive(10,.3);
+            rotate(165,.3);
+            Strafe(3,.3);
             //drives to 2nd wobble
-            Drive(35,-.6);
+            Drive(35,-.3);
             sleep(1000);
-            rotate(165,.5);
+            rotate(165,.3);
             //strafes
-            Strafe(50,-.4);
+            /*Strafe(50,-.4);
             resetAngle();
              Strafe(5,.6);
             //drives to drop
             Drive(90,-.6);
             Drive(40,.6);
-            Strafe(24,.6);
+            Strafe(24,.6);*/
 
 
         }
@@ -293,13 +294,14 @@ public class RingSense1 extends LinearOpMode
         /*
          * The core values which define the location and size of the sample regions
          */
-        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(143,114);
-
-        static final int REGION_WIDTH = 40;
-        static final int REGION_HEIGHT = 30;
-
-        final int FOUR_RING_THRESHOLD = 155;
-        final int ONE_RING_THRESHOLD = 130;
+                                                                   //location
+        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(93,92);
+          //Size
+        static final int REGION_WIDTH  = 35;
+        static final int REGION_HEIGHT = 25;
+          //Threshholds
+        final int FOUR_RING_THRESHOLD = 150;
+        final int ONE_RING_THRESHOLD  = 132;
 
         Point region1_pointA = new Point(
                 REGION1_TOPLEFT_ANCHOR_POINT.x,
@@ -391,20 +393,23 @@ public class RingSense1 extends LinearOpMode
 
         ResetEncoders();
 
-        LeftFront .setPower(Power);
-        RightFront.setPower(-Power);
-        LeftRear  .setPower(-Power);
-        RightRear .setPower(Power);
+
         while (Math.abs(LeftFront.getCurrentPosition() )< DistanceTicks
                 && opModeIsActive())
         {
+            LeftFront .setPower(Power);
+            LeftRear  .setPower(-Power);
+            RightFront.setPower(-Power);
+            RightRear .setPower(Power);
             telemetry.addData("Target"   , DistanceTicks);
             telemetry.addData("EncoderLF",LeftFront .getCurrentPosition());
             telemetry.addData("EncoderLR",LeftRear  .getCurrentPosition());
-            telemetry.addData("EncoderRR",RightRear .getCurrentPosition());
             telemetry.update();
         }
-        Off();
+        LeftFront .setPower(0);
+        RightFront.setPower(0);
+        LeftRear  .setPower(0);
+        RightRear .setPower(0);
 
 
     }
