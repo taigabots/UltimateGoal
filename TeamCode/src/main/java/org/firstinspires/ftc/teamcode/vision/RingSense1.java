@@ -27,6 +27,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 //import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -60,6 +61,9 @@ public class RingSense1 extends LinearOpMode
     public DcMotor LeftRear   = null;
     public DcMotor RightFront = null;
     public DcMotor RightRear  = null;
+    public DcMotor Shooter    = null;
+    public Servo ShootAngle = null;
+    public Servo   ShooterArm = null;
     double WHEEL_CIRCUMFERENCE = 3.78;
     double ENCODER_TICKS_PER_ROTATION = 537.6;
 
@@ -76,6 +80,9 @@ public class RingSense1 extends LinearOpMode
         LeftFront  = hardwareMap.dcMotor.get(" FrontLeft  ");
         RightFront = hardwareMap.dcMotor.get(" FrontRight ");
         RightRear  = hardwareMap.dcMotor.get(" BackRight  ");
+        Shooter     = hardwareMap.dcMotor.get ( "Shooter     ");
+        ShooterArm  = hardwareMap.servo.get   ( "ShooterArm  ");
+        ShootAngle  = hardwareMap.servo.get   ( "ShooterAngle");
 
 //------------------------------Direction---------------------------------------------------------\\
         //Reverse spins motors to the right Forward spins motors to the left
@@ -83,6 +90,7 @@ public class RingSense1 extends LinearOpMode
         LeftRear  .setDirection (DcMotorSimple.Direction.FORWARD);
         RightFront.setDirection (DcMotorSimple.Direction.REVERSE);
         RightRear .setDirection (DcMotorSimple.Direction.REVERSE);
+        Shooter   .setDirection (DcMotorSimple.Direction.REVERSE);
 
 //------------------------------Encoder---------------------------------------------------------\\
 
@@ -166,20 +174,41 @@ public class RingSense1 extends LinearOpMode
             telemetry.addData("Ring", "FOUR");
             telemetry.update();
 
+
             //drives off wall
+            ShootAngle.setPosition(.72);
             Drive(5,-.3);
             //strafes to line up with 4
             Strafe(20,-.3);
             sleep(1000);
             //drives down to square
-            Drive(85,-.3);
+            Drive(90,-.3);
             //drives to shoot line
             Drive(30,.3);
             sleep(500);
             //strafe to shoot
-            Strafe(37,.3);
+            Strafe(23,.3);
+            Shooter.setPower(1);
+            sleep(1000);
+            ShooterArm.setPosition(0);
+            Shooter.setPower(1);
             sleep(500);
-            Drive(10,.3);
+            ShooterArm.setPosition(.259);
+            Shooter.setPower(1);
+            sleep(500);
+            Shooter.setPower(1);
+            ShooterArm.setPosition(0);
+            sleep(500);
+            Shooter.setPower(1);
+            ShooterArm.setPosition(.259);
+            sleep(500);
+            Shooter.setPower(1);
+            ShooterArm.setPosition(0);
+            sleep(500);
+            Shooter.setPower(0);
+
+            sleep(500);
+            /*Drive(10,.3);
             rotate(165,.3);
             Strafe(3,.3);
             //drives to 2nd wobble
