@@ -70,20 +70,27 @@ public class GamerOp extends OpMode {
         double Strafe = +gamepad1.left_stick_x ;
         double Turn   = +gamepad1.right_stick_x;
         double Speed  = 1;
+        double SpeedTurn = .75;
+
+
+
+
 
         if (gamepad1.right_bumper)
         {
             Speed = .5;
+            SpeedTurn = .5;
         }
         else
         {
             Speed = 1;
+            SpeedTurn = .75;
         }
 
-        LeftFront  .setPower( - Drive + Strafe * Speed + Turn);
-        LeftRear   .setPower( - Drive - Strafe * Speed + Turn);
-        RightFront .setPower( - Drive - Strafe * Speed - Turn);
-        RightRear  .setPower( - Drive + Strafe * Speed - Turn);
+        LeftFront  .setPower( - Drive + Strafe * Speed + Turn * SpeedTurn);
+        LeftRear   .setPower( - Drive - Strafe * Speed + Turn * SpeedTurn);
+        RightFront .setPower( - Drive - Strafe * Speed - Turn * SpeedTurn);
+        RightRear  .setPower( - Drive + Strafe * Speed - Turn * SpeedTurn);
 
         telemetry.addData("Lf",LeftFront  .getCurrentPosition());
         telemetry.addData("LR",LeftRear   .getCurrentPosition());
@@ -131,7 +138,7 @@ public class GamerOp extends OpMode {
         {
             Shooter.setPower(1);
         }
-        else if (gamepad2.a)
+        else
         {
             Shooter.setPower(0);
         }
@@ -152,6 +159,12 @@ public class GamerOp extends OpMode {
         else if (gamepad2.dpad_down)
         {
             ShootAngle.setPosition(1);
+        }else if (gamepad2.dpad_right)
+        {
+            ShootAngle.setPosition(.725);
+        }else if (gamepad2.dpad_left)
+        {
+            ShootAngle.setPosition(.75);
         }
 
 
