@@ -79,10 +79,10 @@ public class GamerOp extends OpMode {
             Speed = 1;
         }
 
-        LeftFront  .setPower( + Drive - Strafe * Speed + Turn);
-        LeftRear   .setPower( + Drive + Strafe * Speed + Turn);
-        RightFront .setPower( + Drive - Strafe * Speed - Turn);
-        RightRear  .setPower( + Drive + Strafe * Speed - Turn);
+        LeftFront  .setPower( - Drive + Strafe * Speed + Turn);
+        LeftRear   .setPower( - Drive - Strafe * Speed + Turn);
+        RightFront .setPower( - Drive - Strafe * Speed - Turn);
+        RightRear  .setPower( - Drive + Strafe * Speed - Turn);
 
         telemetry.addData("Lf",LeftFront  .getCurrentPosition());
         telemetry.addData("LR",LeftRear   .getCurrentPosition());

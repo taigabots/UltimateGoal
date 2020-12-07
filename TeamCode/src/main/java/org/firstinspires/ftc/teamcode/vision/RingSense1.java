@@ -176,18 +176,19 @@ public class RingSense1 extends LinearOpMode
 
 
             //drives off wall
-            ShootAngle.setPosition(.72);
+            ShootAngle.setPosition(.71);
             Drive(5,-.3);
             //strafes to line up with 4
             Strafe(20,-.3);
             sleep(1000);
             //drives down to square
-            Drive(90,-.3);
+            Drive(100,-.3);
             //drives to shoot line
-            Drive(30,.3);
+            Drive(22,.3);
             sleep(500);
             //strafe to shoot
-            Strafe(23,.3);
+            Strafe(26.5,.3);
+            Drive(25, .3);
             Shooter.setPower(1);
             sleep(1000);
             ShooterArm.setPosition(0);
@@ -206,8 +207,14 @@ public class RingSense1 extends LinearOpMode
             ShooterArm.setPosition(0);
             sleep(500);
             Shooter.setPower(0);
-
+            ShooterArm.setPosition(1);
             sleep(500);
+            Drive(13,-.3);
+
+
+
+
+
             /*Drive(10,.3);
             rotate(165,.3);
             Strafe(3,.3);
@@ -232,10 +239,40 @@ public class RingSense1 extends LinearOpMode
             telemetry.addData("square","middle ");
             telemetry.addData("Rings", "One");
             telemetry.update();
-            Strafe(20,-.1);
-            Drive (64,-.2);
-            Strafe(24,.1);
-            Drive(20,-.2);
+
+            ShootAngle.setPosition(.695);
+            Strafe(20,-.3);
+            Drive (76 ,-.3);
+            Strafe(26.5, .3);
+            Drive(10, -.3);
+            Drive(26, .3);
+            Shooter.setPower(1);
+            sleep(1000);
+            ShooterArm.setPosition(0);
+            Shooter.setPower(1);
+            sleep(500);
+            ShooterArm.setPosition(.259);
+            Shooter.setPower(1);
+            sleep(500);
+            Shooter.setPower(1);
+            ShooterArm.setPosition(0);
+            sleep(500);
+            Shooter.setPower(1);
+            ShooterArm.setPosition(.259);
+            sleep(500);
+            Shooter.setPower(1);
+            ShooterArm.setPosition(0);
+            sleep(500);
+            Shooter.setPower(0);
+            ShooterArm.setPosition(1);
+            sleep(500);
+            Drive(15,-.3);
+
+
+
+
+
+
         }
         else
         {
@@ -244,8 +281,39 @@ public class RingSense1 extends LinearOpMode
             telemetry.addData("square ","close");
             telemetry.addData( "Rings","None");
             telemetry.update();
-            Strafe(24,-.2);
-            Drive (56,-.2);
+
+
+            ShootAngle.setPosition(.71);
+            Strafe(20,-.3);
+            Drive (60 ,-.3);
+            Drive(10,.3);
+            Strafe(28.5,.3);
+            Drive(4,-.3);
+            Shooter.setPower(1);
+            sleep(1000);
+            ShooterArm.setPosition(0);
+            Shooter.setPower(1);
+            sleep(500);
+            ShooterArm.setPosition(.259);
+            Shooter.setPower(1);
+            sleep(500);
+            Shooter.setPower(1);
+            ShooterArm.setPosition(0);
+            sleep(500);
+            Shooter.setPower(1);
+            ShooterArm.setPosition(.259);
+            sleep(500);
+            Shooter.setPower(1);
+            ShooterArm.setPosition(0);
+            sleep(500);
+            Shooter.setPower(0);
+            ShooterArm.setPosition(1);
+            sleep(500);
+            Drive(26,-.3);
+
+
+
+
         }
         while (opModeIsActive()){
             telemetry.addData("Analysis", pipeline.getAnalysis());

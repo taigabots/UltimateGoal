@@ -66,7 +66,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 
 @Autonomous(name="AutoEncoderTest", group="Pushbot")
-public class AutoEncoderTest extends LinearOpMode {
+public class  AutoEncoderTest extends LinearOpMode {
 
     /* Declare OpMode members. */
     private ElapsedTime     runtime = new ElapsedTime();
