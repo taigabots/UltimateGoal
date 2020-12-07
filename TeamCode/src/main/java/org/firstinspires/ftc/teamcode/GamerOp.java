@@ -36,6 +36,7 @@ public class GamerOp extends OpMode {
         Shooter     = hardwareMap.dcMotor.get ( "Shooter     ");
         ShooterArm  = hardwareMap.servo.get   ( "ShooterArm  ");
         ShootAngle  = hardwareMap.servo.get   ( "ShooterAngle");
+
 //------------------------------Direction---------------------------------------------------------\\
 
         //Reverse spins motors to the right Forward spins motors to the left
@@ -109,19 +110,33 @@ public class GamerOp extends OpMode {
         }
 
 
+        if(gamepad2.right_trigger > .1)
+        {
+            Intake.setPower(1);
+        }
+        else if (gamepad2.left_trigger > .1)
+        {
+            Intake.setPower(-1);
+        }
+        else
+        {
+            Intake.setPower(0);
+        }
+
+
 
 //------------------------------Shooter-----------------------------------------------------------\\
 
-        if (gamepad1.left_bumper)
+        if (gamepad2.left_bumper)
         {
             Shooter.setPower(1);
         }
-        else
+        else if (gamepad2.a)
         {
             Shooter.setPower(0);
         }
 
-        if (gamepad1.a)
+        if (gamepad2.right_bumper)
         {
             ShooterArm.setPosition(0.005);
         }
@@ -130,14 +145,15 @@ public class GamerOp extends OpMode {
             ShooterArm.setPosition(.259);
         }
 
-        if (gamepad1.dpad_up)
+        if (gamepad2.dpad_up)
         {
             ShootAngle.setPosition(0.7);
         }
-        else if (gamepad1.dpad_down)
+        else if (gamepad2.dpad_down)
         {
             ShootAngle.setPosition(1);
         }
+
 
 //------------------------------Wobble------------------------------------------------------------\\
 
