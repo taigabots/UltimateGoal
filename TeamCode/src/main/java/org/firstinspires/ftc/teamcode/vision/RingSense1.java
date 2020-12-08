@@ -24,11 +24,10 @@ package org.firstinspires.ftc.teamcode.vision;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-//import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.TouchSensor;
+
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -50,8 +49,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
 public class RingSense1 extends LinearOpMode
 {
 
-    DcMotor                 leftMotor, rightMotor;
-    TouchSensor touch;
+
     BNO055IMU               imu;
     Orientation lastAngles = new Orientation();
     double                  globalAngle, power = .30, correction;
@@ -106,6 +104,7 @@ public class RingSense1 extends LinearOpMode
         LeftRear   .setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         RightFront .setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         RightRear  .setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        Shooter .setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -132,16 +131,7 @@ public class RingSense1 extends LinearOpMode
         telemetry.addData("Mode", "waiting for start");
         telemetry.addData("imu calib status", imu.getCalibrationStatus().toString());
         telemetry.update();
-
-
-
-
-
-
-
-
-
-
+        //Dont look unless broken
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         pipeline = new SkystoneDeterminationPipeline();
@@ -166,10 +156,7 @@ public class RingSense1 extends LinearOpMode
         resetAngle();
 
 
-
-
-
-
+// If sense four rings play this
         if (pipeline.getAnalysis()>pipeline.FOUR_RING_THRESHOLD)
         {
 
@@ -218,7 +205,7 @@ public class RingSense1 extends LinearOpMode
 
 
 
-
+//not being used right now
             /*
             ShootAngle.setPosition(1);
             sleep(500);
@@ -251,7 +238,7 @@ public class RingSense1 extends LinearOpMode
 
 
 
-
+//not being used right now
             /*Drive(10,.3);
             rotate(165,.3);
             Strafe(3,.3);
@@ -536,13 +523,7 @@ public class RingSense1 extends LinearOpMode
 
     }
 
-    public void GyroTurn(double angle, double Power) {
-        double thing = (angle / angle) * -1;
-        LeftFront .setPower(Power * +thing);
-        RightFront.setPower(Power * +thing);
-        LeftRear  .setPower(Power * -thing);
-        RightRear .setPower(Power * -thing);
-    }
+
 
     public void Strafe  (double Inch, double Power) {
         int DistanceTicks = ConvertInchesToRotations(Inch);
@@ -583,18 +564,9 @@ public class RingSense1 extends LinearOpMode
 
         LeftFront.setMode (DcMotor.RunMode.RUN_USING_ENCODER);
         LeftRear.setMode  (DcMotor.RunMode.RUN_USING_ENCODER);
-        RightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        RightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         RightRear.setMode (DcMotor.RunMode.RUN_USING_ENCODER);
 
-
-    }
-
-    public void Off() {
-
-        LeftFront.setPower(0);
-        LeftRear.setPower(0);
-        RightFront.setPower(0);
-        RightRear.setPower(0);
 
     }
 
@@ -654,6 +626,8 @@ public class RingSense1 extends LinearOpMode
 
         return correction;
     }
+    /* Not being used
+
     private void rotate(int degrees, double power)
     {
         double  leftPower, rightPower;
@@ -706,7 +680,6 @@ public class RingSense1 extends LinearOpMode
         // reset angle tracking on new heading.
         resetAngle();
     }
-    private void Ramps ()
-    {   }
+*/
 
 }
