@@ -169,6 +169,7 @@ public class RingSense1 extends LinearOpMode
 
 
 
+
         if (pipeline.getAnalysis()>pipeline.FOUR_RING_THRESHOLD)
         {
 
@@ -179,7 +180,7 @@ public class RingSense1 extends LinearOpMode
 
 
             //drives off wall
-            ShootAngle.setPosition(.71);
+            ShootAngle.setPosition(.714);
             Drive(5,-.6);
             //strafes to line up with 4
             Strafe(20,-.6);
@@ -190,8 +191,8 @@ public class RingSense1 extends LinearOpMode
             Drive(22,.6);
             sleep(500);
             //strafe to shoot
-            Strafe(26.5,.6);
-            Drive(25, .6);
+            Strafe(24,.6);
+            Drive(26 , .6);
             Shooter.setPower(1);
             sleep(1000);
             ShooterArm.setPosition(0);
@@ -212,7 +213,9 @@ public class RingSense1 extends LinearOpMode
             Shooter.setPower(0);
             ShooterArm.setPosition(.259);
             sleep(500);
-            Drive(15,-.6);
+            Drive(11,-.6);
+
+
 
 
 
@@ -240,9 +243,7 @@ public class RingSense1 extends LinearOpMode
             sleep(500);
             ShooterArm.setPosition(.259);
             Drive(25,-.6);
-            Shooter.setPower(0);
-
-             */
+            Shooter.setPower(0);*/
 
 
 
@@ -276,13 +277,14 @@ public class RingSense1 extends LinearOpMode
             telemetry.addData("Rings", "One");
             telemetry.update();
 
-            ShootAngle.setPosition(.70);
+
+            ShootAngle.setPosition(.71);
+            Drive(5,-.6);
             Strafe(20,-.6);
-            Drive (76 ,-.6);
+            Drive (71 ,-.6);
             sleep(500);
-            Strafe(26.5, .6);
-            Drive(10, -.6);
-            Drive(26, .6);
+            Strafe(21.5, .6);
+            Drive(20, .6);
             Shooter.setPower(1);
             sleep(1000);
             ShooterArm.setPosition(0);
@@ -306,7 +308,8 @@ public class RingSense1 extends LinearOpMode
             sleep(500);
             Intake.setPower(1);
             Drive(5,.6);
-            sleep(1000);
+            sleep(1500);
+            Drive(2, -.6);
             Intake.setPower(0);
             ShootAngle.setPosition(.70);
             sleep(500);
@@ -316,8 +319,10 @@ public class RingSense1 extends LinearOpMode
             sleep(1000);
             ShooterArm.setPosition(.259);
             Drive(7,-.6);
-            Drive(15,-.6);
+            Drive(5,-.6);
             Shooter.setPower(0);
+
+
 
 
 
@@ -335,11 +340,12 @@ public class RingSense1 extends LinearOpMode
             telemetry.update();
 
 
-            ShootAngle.setPosition(.70);
+            ShootAngle.setPosition(.71);
+            Drive(5,-.6);
             Strafe(20,-.6);
-            Drive (60 ,-.6);
+            Drive (55 ,-.6);
             Drive(10,.6);
-            Strafe(28.5,.6);
+            Strafe(23,.6);
             Drive(4,-.6);
             Shooter.setPower(1);
             sleep(1000);
@@ -361,27 +367,28 @@ public class RingSense1 extends LinearOpMode
             Shooter.setPower(0);
             ShooterArm.setPosition(1);
             sleep(500);
-            Drive(23,-.6);
+            Drive(11,-.6);
+
+
 
 
 
 
         }
+
+
+
+
+
+
+
+
         while (opModeIsActive()){
             telemetry.addData("Analysis", pipeline.getAnalysis());
             telemetry.addData("Position", pipeline.position);
             telemetry.update();
             sleep(50);
         }
-
-
-
-
-
-
-
-
-
 
 
 
@@ -449,8 +456,8 @@ public class RingSense1 extends LinearOpMode
         static final int REGION_WIDTH  = 35;
         static final int REGION_HEIGHT = 25;
           //Threshholds
-        final int FOUR_RING_THRESHOLD = 150;
-        final int ONE_RING_THRESHOLD  = 132;
+        final int FOUR_RING_THRESHOLD = 160;
+        final int ONE_RING_THRESHOLD  = 135;
 
         Point region1_pointA = new Point(
                 REGION1_TOPLEFT_ANCHOR_POINT.x,
