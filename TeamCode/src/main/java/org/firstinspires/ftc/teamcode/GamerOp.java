@@ -166,6 +166,10 @@ public class GamerOp extends OpMode {
         {
             ShootAngle.setPosition(.75);
         }
+        {
+            if (gamepad2.x);
+            Shooter.setPower(-.75);
+        }
 
 
 //------------------------------Wobble------------------------------------------------------------\\
