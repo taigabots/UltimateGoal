@@ -58,7 +58,6 @@ public class GamerOp extends OpMode {
         RightRear .setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
     }
-
 //------------------------------OpMode------------------------------------------------------------\\
 
     @Override
