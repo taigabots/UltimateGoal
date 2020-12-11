@@ -49,12 +49,16 @@ import org.openftc.easyopencv.OpenCvPipeline;
 public class RingSense1 extends LinearOpMode
 {
 
-
+    // Declaration of all IMU variables
     BNO055IMU               imu;
     Orientation lastAngles = new Orientation();
     double                  globalAngle, power = .30, correction;
+
+    // OpenCV declaration
     OpenCvCamera webcam;
     SkystoneDeterminationPipeline pipeline;
+
+    // Motor declartions
     public DcMotor LeftFront  = null;
     public DcMotor LeftRear   = null;
     public DcMotor RightFront = null;
@@ -106,12 +110,12 @@ public class RingSense1 extends LinearOpMode
         RightRear  .setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         Shooter .setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-
+        // Init IMU
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-
         parameters.mode = BNO055IMU.SensorMode.IMU;
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+
         parameters.loggingEnabled = false;
 
         // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
@@ -131,6 +135,7 @@ public class RingSense1 extends LinearOpMode
         telemetry.addData("Mode", "waiting for start");
         telemetry.addData("imu calib status", imu.getCalibrationStatus().toString());
         telemetry.update();
+
         //Dont look unless broken
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
