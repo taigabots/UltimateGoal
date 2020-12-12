@@ -310,13 +310,6 @@ public class RingSense1 extends LinearOpMode
             Shooter.setPower(0);
 
 
-
-
-
-
-
-
-
         }
         else
         {
@@ -325,6 +318,7 @@ public class RingSense1 extends LinearOpMode
             telemetry.addData("square ","close");
             telemetry.addData( "Rings","None");
             telemetry.update();
+
 
 
             ShootAngle.setPosition(.71);
@@ -355,10 +349,6 @@ public class RingSense1 extends LinearOpMode
             ShooterArm.setPosition(1);
             sleep(500);
             Drive(11,-.6);
-
-
-
-
 
 
         }
@@ -522,8 +512,6 @@ public class RingSense1 extends LinearOpMode
         }
 
     }
-
-
 
     public void Strafe  (double Inch, double Power) {
         int DistanceTicks = ConvertInchesToRotations(Inch);

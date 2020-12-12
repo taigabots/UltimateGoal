@@ -1,19 +1,20 @@
 package org.firstinspires.ftc.teamcode;
 
-        import com.qualcomm.hardware.bosch.BNO055IMU;
-        import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-        import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-        import com.qualcomm.robotcore.hardware.DcMotor;
-        import com.qualcomm.robotcore.hardware.DcMotorSimple;
-        import com.qualcomm.robotcore.hardware.Servo;
-        import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-        import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-        import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-        import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 @TeleOp
-public class GamerOp extends OpMode {
+public class TestTele extends OpMode {
+
 
 
 //------------------------------GyroSetup?--------------------------------------------------------\\
@@ -22,7 +23,7 @@ public class GamerOp extends OpMode {
     Orientation lastAngles = new Orientation();
     double                  globalAngle, power = .30, correction;
 
-//------------------------------InitSetup?--------------------------------------------------------\\
+//------------------------------NullLoop----------------------------------------------------------\\
 
     public DcMotor LeftFront  = null;
     public DcMotor LeftRear   = null;
@@ -35,9 +36,10 @@ public class GamerOp extends OpMode {
 
 //------------------------------InitLoop----------------------------------------------------------\\
 
+
+
     @Override
     public void init() {
-
 
 //------------------------------PhoneHardWareMap--------------------------------------------------\\
 
@@ -84,25 +86,26 @@ public class GamerOp extends OpMode {
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         parameters.loggingEnabled = false;
 
+        // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
+        // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
+        // and named "imu".
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 
         imu.initialize(parameters);
 
         telemetry.addData("Mode", "calibrating...");
         telemetry.update();
+        // make sure the imu gyro is calibrated before continuing.
 
         telemetry.addData("Mode", "waiting for start");
         telemetry.addData("imu calib status", imu.getCalibrationStatus().toString());
         telemetry.update();
 
-    }
 
-//------------------------------OpMode------------------------------------------------------------\\
+    }
 
     @Override
     public void loop() {
-
-//------------------------------DriverController--------------------------------------------------\\
 
         double D   = +gamepad1.left_stick_y ;
         double S   = +gamepad1.left_stick_x ;
@@ -112,19 +115,20 @@ public class GamerOp extends OpMode {
         double GyroSquare = 0;
 
 
+
         if (gamepad1.right_bumper)
         {
 
             if (getAngle()> 4)
             {
 
-                GyroSquare = .375;
+               GyroSquare = .375;
 
             }
             else if (getAngle()< -4)
             {
 
-                GyroSquare = -.375;
+               GyroSquare = -.375;
 
             }
             else
@@ -149,102 +153,6 @@ public class GamerOp extends OpMode {
         telemetry.addData("angle",getAngle());
         telemetry.update();
 
-
-//------------------------------Intake/Belt-------------------------------------------------------\\
-
-
-        if(gamepad1.right_trigger > .1)
-        {
-            Intake.setPower(1);
-        }
-        else if (gamepad1.left_trigger > .1)
-        {
-            Intake.setPower(-1);
-        }
-        else
-        {
-            Intake.setPower(0);
-        }
-
-
-        if      (gamepad2.right_trigger > .1)
-        {
-            Intake.setPower(1);
-        }
-        else if (gamepad2.left_trigger  > .1)
-        {
-            Intake.setPower(-1);
-        }
-        else
-        {
-            Intake.setPower(0);
-        }
-
-
-
-//------------------------------Shooter-----------------------------------------------------------\\
-
-        if (gamepad2.left_bumper)
-        {
-            Shooter.setPower(1);
-        }
-        else
-        {
-            Shooter.setPower(0);
-        }
-
-        if (gamepad2.right_bumper)
-        {
-            ShooterArm.setPosition(0.005);
-        }
-        else
-        {
-            ShooterArm.setPosition(.259);
-        }
-
-
-
-        if (gamepad2.dpad_up)
-        {
-
-            ShootAngle.setPosition(0.7);
-
-        }
-        else if (gamepad2.dpad_down)
-        {
-
-            ShootAngle.setPosition(1);
-
-        }
-        else if (gamepad2.dpad_right)
-        {
-
-            ShootAngle.setPosition(.725);
-
-        }
-        else if (gamepad2.dpad_left)
-        {
-
-            ShootAngle.setPosition(.75);
-
-        }
-
-
-//------------------------------Wobble------------------------------------------------------------\\
-
-        if(gamepad2.dpad_up)
-        {
-
-        }
-        else if (gamepad2.dpad_down)
-        {
-
-        }
-        else if(gamepad2.dpad_right)
-        {
-
-        }
-
     }
 
     private void resetAngle()
@@ -253,6 +161,7 @@ public class GamerOp extends OpMode {
 
         globalAngle = 0;
     }
+
     /**
      * Get current cumulative angle rotation from last reset.
      * @return Angle in degrees. + = left, - = right.
