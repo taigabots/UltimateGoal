@@ -32,6 +32,7 @@ public class GamerOp extends OpMode {
     public DcMotor Shooter    = null;
     public Servo   ShootAngle = null;
     public Servo   ShooterArm = null;
+    public DcMotor WobbleArm  = null;
 
 //------------------------------InitLoop----------------------------------------------------------\\
 
@@ -50,6 +51,7 @@ public class GamerOp extends OpMode {
         ShooterArm  = hardwareMap.servo.get   ( "ShooterArm  ");
         ShootAngle  = hardwareMap.servo.get   ( "ShooterAngle");
 
+
 //------------------------------Direction---------------------------------------------------------\\
 
         //Reverse spins motors to the right Forward spins motors to the left
@@ -59,6 +61,8 @@ public class GamerOp extends OpMode {
         RightRear .setDirection (DcMotorSimple.Direction.REVERSE);
         Intake    .setDirection (DcMotorSimple.Direction.REVERSE);
         Shooter   .setDirection (DcMotorSimple.Direction.REVERSE);
+        WobbleArm .setDirection (DcMotorSimple.Direction.REVERSE);
+
 
         LeftFront .setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         LeftRear  .setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -69,6 +73,8 @@ public class GamerOp extends OpMode {
         LeftRear  .setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         RightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         RightRear .setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        WobbleArm .setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
 
         LeftFront  .setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         LeftRear   .setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -104,13 +110,13 @@ public class GamerOp extends OpMode {
 
 //------------------------------DriverController--------------------------------------------------\\
 
+
         double D   = +gamepad1.left_stick_y ;
         double S   = +gamepad1.left_stick_x ;
         double T   = +gamepad1.right_stick_x;
         double Sped  = 1;
         double SpedT = .75;
         double GyroSquare = 0;
-
 
         if (gamepad1.right_bumper)
         {
@@ -136,10 +142,21 @@ public class GamerOp extends OpMode {
 
         }
 
-        if (gamepad1.a)
+        if(gamepad1.left_bumper)
+        {
+            Sped =  .75;
+            SpedT = .4;
+        }else
+        {
+            Sped = 1;
+            SpedT = .75;
+        }
+
+        if (gamepad1.y)
         {
             resetAngle();
         }
+
 
 
         LeftFront  .setPower( - D + S * Sped + T * SpedT + GyroSquare);
@@ -147,11 +164,10 @@ public class GamerOp extends OpMode {
         RightFront .setPower( - D - S * Sped - T * SpedT - GyroSquare);
         RightRear  .setPower( - D + S * Sped - T * SpedT - GyroSquare);
         telemetry.addData("angle",getAngle());
+        telemetry.addData("Wobble",WobbleArm.getCurrentPosition());
         telemetry.update();
 
-
 //------------------------------Intake/Belt-------------------------------------------------------\\
-
 
         if(gamepad1.right_trigger > .1)
         {
@@ -180,8 +196,6 @@ public class GamerOp extends OpMode {
             Intake.setPower(0);
         }
 
-
-
 //------------------------------Shooter-----------------------------------------------------------\\
 
         if (gamepad2.left_bumper)
@@ -207,7 +221,7 @@ public class GamerOp extends OpMode {
         if (gamepad2.dpad_up)
         {
 
-            ShootAngle.setPosition(0.7);
+            ShootAngle.setPosition(0.735);
 
         }
         else if (gamepad2.dpad_down)
@@ -219,7 +233,7 @@ public class GamerOp extends OpMode {
         else if (gamepad2.dpad_right)
         {
 
-            ShootAngle.setPosition(.725);
+            ShootAngle.setPosition(.75);
 
         }
         else if (gamepad2.dpad_left)
@@ -232,20 +246,37 @@ public class GamerOp extends OpMode {
 
 //------------------------------Wobble------------------------------------------------------------\\
 
-        if(gamepad2.dpad_up)
+        if(gamepad2.a)
         {
-
+            double Target = 0;
+            double Angle  = WobbleArm.getCurrentPosition();
+            if(Target < Angle) {
+                WobbleArm.setPower(.25);
+            }
+            else
+                {
+                    WobbleArm.setPower(0);
+                }
         }
-        else if (gamepad2.dpad_down)
+        else if(gamepad2.b)
         {
-
+            double Target = 0;
+            double Angle = WobbleArm.getCurrentPosition();
+            if (Target > Angle)
+            {
+                WobbleArm.setPower(-.25);
+            }
+            else
+            {
+                WobbleArm.setPower(0);
+            }
         }
-        else if(gamepad2.dpad_right)
-        {
 
-        }
+
 
     }
+
+
 
     private void resetAngle()
     {

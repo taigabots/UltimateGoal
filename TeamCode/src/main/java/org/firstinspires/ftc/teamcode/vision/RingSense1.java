@@ -1,25 +1,4 @@
-/*
- * Copyright (c) 2020 OpenFTC Team
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 package org.firstinspires.ftc.teamcode.vision;
-
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -49,7 +28,6 @@ import org.openftc.easyopencv.OpenCvPipeline;
 public class RingSense1 extends LinearOpMode
 {
 
-
     BNO055IMU               imu;
     Orientation lastAngles = new Orientation();
     double                  globalAngle, power = .30, correction;
@@ -60,9 +38,10 @@ public class RingSense1 extends LinearOpMode
     public DcMotor RightFront = null;
     public DcMotor RightRear  = null;
     public DcMotor Shooter    = null;
-    public Servo ShootAngle = null;
+    public Servo   ShootAngle = null;
     public Servo   ShooterArm = null;
     public DcMotor Intake     = null;
+    public DcMotor WobbleArm  = null;
     double WHEEL_CIRCUMFERENCE = 3.78;
     double ENCODER_TICKS_PER_ROTATION = 537.6;
 
@@ -72,17 +51,17 @@ public class RingSense1 extends LinearOpMode
     public void runOpMode()
     {
 
-
 //------------------------------PhoneHardWareMap--------------------------------------------------\\
 
-        LeftRear   = hardwareMap.dcMotor.get(" BackLeft   ");
-        LeftFront  = hardwareMap.dcMotor.get(" FrontLeft  ");
-        RightFront = hardwareMap.dcMotor.get(" FrontRight ");
-        RightRear  = hardwareMap.dcMotor.get(" BackRight  ");
+        LeftRear    = hardwareMap.dcMotor.get (" BackLeft   ");
+        LeftFront   = hardwareMap.dcMotor.get (" FrontLeft  ");
+        RightFront  = hardwareMap.dcMotor.get (" FrontRight ");
+        RightRear   = hardwareMap.dcMotor.get (" BackRight  ");
         Intake      = hardwareMap.dcMotor.get ( "Intake      ");
         Shooter     = hardwareMap.dcMotor.get ( "Shooter     ");
         ShooterArm  = hardwareMap.servo.get   ( "ShooterArm  ");
         ShootAngle  = hardwareMap.servo.get   ( "ShooterAngle");
+        WobbleArm     = hardwareMap.dcMotor.get ( "WobbleArm    ");
 
 //------------------------------Direction---------------------------------------------------------\\
         //Reverse spins motors to the right Forward spins motors to the left
@@ -92,19 +71,21 @@ public class RingSense1 extends LinearOpMode
         RightRear .setDirection (DcMotorSimple.Direction.REVERSE);
         Shooter   .setDirection (DcMotorSimple.Direction.REVERSE);
         Intake    .setDirection (DcMotorSimple.Direction.REVERSE);
+        WobbleArm .setDirection (DcMotorSimple.Direction.REVERSE);
 
 //------------------------------Encoder---------------------------------------------------------\\
 
         LeftFront .setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         LeftRear  .setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        RightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        RightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         RightRear .setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        WobbleArm .setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         LeftFront  .setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         LeftRear   .setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         RightFront .setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         RightRear  .setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        Shooter .setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        Shooter    .setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -128,6 +109,7 @@ public class RingSense1 extends LinearOpMode
             sleep(50);
             idle();
         }
+
         telemetry.addData("Mode", "waiting for start");
         telemetry.addData("imu calib status", imu.getCalibrationStatus().toString());
         telemetry.update();
@@ -156,7 +138,15 @@ public class RingSense1 extends LinearOpMode
         resetAngle();
 
 
-// If sense four rings play this
+        /*while (opModeIsActive()){
+            telemetry.addData("Analysis", pipeline.getAnalysis());
+            telemetry.addData("Position", pipeline.position);
+            telemetry.update();
+            sleep(50);
+        }*/
+
+        sleep(1000);
+        // If sense four rings play this
         if (pipeline.getAnalysis()>pipeline.FOUR_RING_THRESHOLD)
         {
 
@@ -167,7 +157,7 @@ public class RingSense1 extends LinearOpMode
 
 
             //drives off wall
-            ShootAngle.setPosition(.714);
+            ShootAngle.setPosition(.725);
             Drive(5,-.6);
             //strafes to line up with 4
             Strafe(20,-.6);
@@ -202,10 +192,7 @@ public class RingSense1 extends LinearOpMode
             sleep(500);
             Drive(11,-.6);
 
-
-
-
-//not being used right now
+            //not being used right now
             /*
             ShootAngle.setPosition(1);
             sleep(500);
@@ -232,13 +219,7 @@ public class RingSense1 extends LinearOpMode
             Drive(25,-.6);
             Shooter.setPower(0);*/
 
-
-
-
-
-
-
-//not being used right now
+            //not being used right now
             /*Drive(10,.3);
             rotate(165,.3);
             Strafe(3,.3);
@@ -265,12 +246,12 @@ public class RingSense1 extends LinearOpMode
             telemetry.update();
 
 
-            ShootAngle.setPosition(.71);
+            ShootAngle.setPosition(.73);
             Drive(5,-.6);
             Strafe(20,-.6);
             Drive (71 ,-.6);
             sleep(500);
-            Strafe(21.5, .6);
+            Strafe(24, .6);
             Drive(20, .6);
             Shooter.setPower(1);
             sleep(1000);
@@ -294,11 +275,11 @@ public class RingSense1 extends LinearOpMode
             ShootAngle.setPosition(1);
             sleep(500);
             Intake.setPower(1);
-            Drive(5,.6);
+            Drive(8,.6);
             sleep(1500);
-            Drive(2, -.6);
+            Drive(5, -.6);
             Intake.setPower(0);
-            ShootAngle.setPosition(.70);
+            ShootAngle.setPosition(.725);
             sleep(500);
             Shooter.setPower(1);
             sleep(1000);
@@ -321,7 +302,7 @@ public class RingSense1 extends LinearOpMode
 
 
 
-            ShootAngle.setPosition(.71);
+            ShootAngle.setPosition(.725);
             Drive(5,-.6);
             Strafe(20,-.6);
             Drive (55 ,-.6);
@@ -352,25 +333,6 @@ public class RingSense1 extends LinearOpMode
 
 
         }
-
-
-
-
-
-
-
-
-        while (opModeIsActive()){
-            telemetry.addData("Analysis", pipeline.getAnalysis());
-            telemetry.addData("Position", pipeline.position);
-            telemetry.update();
-            sleep(50);
-        }
-
-
-
-
-
 
     }
 
@@ -427,14 +389,14 @@ public class RingSense1 extends LinearOpMode
         /*
          * The core values which define the location and size of the sample regions
          */
-                                                                   //location
-        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(93,92);
+                                                                   //location95
+        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(107,110);
           //Size
-        static final int REGION_WIDTH  = 35;
-        static final int REGION_HEIGHT = 25;
+        static final int REGION_WIDTH  = 45;
+        static final int REGION_HEIGHT = 20;
           //Threshholds
-        final int FOUR_RING_THRESHOLD = 160;
-        final int ONE_RING_THRESHOLD  = 135;
+        final int FOUR_RING_THRESHOLD = 156;
+        final int ONE_RING_THRESHOLD  = 140;
 
         Point region1_pointA = new Point(
                 REGION1_TOPLEFT_ANCHOR_POINT.x,
@@ -552,7 +514,7 @@ public class RingSense1 extends LinearOpMode
 
         LeftFront.setMode (DcMotor.RunMode.RUN_USING_ENCODER);
         LeftRear.setMode  (DcMotor.RunMode.RUN_USING_ENCODER);
-        RightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        RightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         RightRear.setMode (DcMotor.RunMode.RUN_USING_ENCODER);
 
 
@@ -565,10 +527,6 @@ public class RingSense1 extends LinearOpMode
         globalAngle = 0;
     }
 
-    /**
-     * Get current cumulative angle rotation from last reset.
-     * @return Angle in degrees. + = left, - = right.
-     */
     private double getAngle()
     {
         // We experimentally determined the Z axis is the axis we want to use for heading angle.
@@ -592,10 +550,6 @@ public class RingSense1 extends LinearOpMode
         return globalAngle;
     }
 
-    /**
-     * See if we are moving in a straight line and if not return a power correction value.
-     * @return Power adjustment, + is adjust left - is adjust right.
-     */
     private double checkDirection()
     {
         // The gain value determines how sensitive the correction is to direction changes.
@@ -614,7 +568,6 @@ public class RingSense1 extends LinearOpMode
 
         return correction;
     }
-    /* Not being used
 
     private void rotate(int degrees, double power)
     {
@@ -668,6 +621,5 @@ public class RingSense1 extends LinearOpMode
         // reset angle tracking on new heading.
         resetAngle();
     }
-*/
 
 }

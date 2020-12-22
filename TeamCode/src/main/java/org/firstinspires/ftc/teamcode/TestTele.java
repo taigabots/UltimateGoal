@@ -112,20 +112,28 @@ public class TestTele extends OpMode {
         double T   = +gamepad1.right_stick_x;
         double Sped  = 1;
         double SpedT = .75;
+        double Angle = getAngle();
         double GyroSquare = 0;
 
-
+        if (getAngle() > 360)
+        {
+            Angle = getAngle() - 360;
+        }
+        else if (getAngle() < -360)
+        {
+            Angle = getAngle() + 360;
+        }
 
         if (gamepad1.right_bumper)
         {
 
-            if (getAngle()> 4)
+            if (Angle > 4)
             {
 
                GyroSquare = .375;
 
             }
-            else if (getAngle()< -4)
+            else if (Angle< -4)
             {
 
                GyroSquare = -.375;
@@ -146,11 +154,12 @@ public class TestTele extends OpMode {
         }
 
 
+
         LeftFront  .setPower( - D + S * Sped + T * SpedT + GyroSquare);
         LeftRear   .setPower( - D - S * Sped + T * SpedT + GyroSquare);
         RightFront .setPower( - D - S * Sped - T * SpedT - GyroSquare);
         RightRear  .setPower( - D + S * Sped - T * SpedT - GyroSquare);
-        telemetry.addData("angle",getAngle());
+        telemetry.addData("angle",Angle);
         telemetry.update();
 
     }
