@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.vision;
+package org.firstinspires.ftc.teamcode;
 
 /* Copyright (c) 2017 FIRST. All rights reserved.
  *

@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -12,7 +13,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.teamcode.vision.RingSense1;
+import org.firstinspires.ftc.teamcode.vision.ShootAuto;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
@@ -50,7 +51,7 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvPipeline;
 
-
+@Disabled
     @Autonomous
     public class TestingAuto extends LinearOpMode
     {
@@ -61,7 +62,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
         Orientation lastAngles = new Orientation();
         double                  globalAngle, power = .30, correction;
         OpenCvCamera webcam;
-        org.firstinspires.ftc.teamcode.vision.RingSense1.SkystoneDeterminationPipeline pipeline;
+        org.firstinspires.ftc.teamcode.vision.ShootAuto.SkystoneDeterminationPipeline pipeline;
         public DcMotor LeftFront  = null;
         public DcMotor LeftRear   = null;
         public DcMotor RightFront = null;

@@ -1,13 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.vision.RingSense1;
+import org.firstinspires.ftc.teamcode.vision.ShootAuto;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
@@ -20,7 +21,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvPipeline;
 import org.openftc.easyopencv.OpenCvWebcam;
 
-
+@Disabled
 @Autonomous
 public class AutoMethods extends LinearOpMode {
 
@@ -37,7 +38,7 @@ public class AutoMethods extends LinearOpMode {
     double ONE  = 100;
     double NONE = 0  ;
     public OpenCvWebcam  webcam;
-    RingSense1.SkystoneDeterminationPipeline pipeline;
+    ShootAuto.SkystoneDeterminationPipeline pipeline;
 
 
 
@@ -150,7 +151,7 @@ public class AutoMethods extends LinearOpMode {
         int avg1;
 
         // Volatile since accessed by OpMode thread w/o synchronization
-        private volatile RingSense1.SkystoneDeterminationPipeline.RingPosition position = RingSense1.SkystoneDeterminationPipeline.RingPosition.FOUR;
+        private volatile ShootAuto.SkystoneDeterminationPipeline.RingPosition position = ShootAuto.SkystoneDeterminationPipeline.RingPosition.FOUR;
 
         /*
          * This function takes the RGB frame, converts to YCrCb,
@@ -184,13 +185,13 @@ public class AutoMethods extends LinearOpMode {
                     BLUE, // The color the rectangle is drawn in
                     2); // Thickness of the rectangle lines
 
-            position = RingSense1.SkystoneDeterminationPipeline.RingPosition.FOUR; // Record our analysis
+            position = ShootAuto.SkystoneDeterminationPipeline.RingPosition.FOUR; // Record our analysis
             if(avg1 > FOUR_RING_THRESHOLD){
-                position = RingSense1.SkystoneDeterminationPipeline.RingPosition.FOUR;
+                position = ShootAuto.SkystoneDeterminationPipeline.RingPosition.FOUR;
             }else if (avg1 > ONE_RING_THRESHOLD){
-                position = RingSense1.SkystoneDeterminationPipeline.RingPosition.ONE;
+                position = ShootAuto.SkystoneDeterminationPipeline.RingPosition.ONE;
             }else{
-                position = RingSense1.SkystoneDeterminationPipeline.RingPosition.NONE;
+                position = ShootAuto.SkystoneDeterminationPipeline.RingPosition.NONE;
             }
 
             Imgproc.rectangle(

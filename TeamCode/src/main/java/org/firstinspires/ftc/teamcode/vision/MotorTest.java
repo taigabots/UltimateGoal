@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.vision;
 
 
 
@@ -24,7 +24,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
 public class MotorTest extends LinearOpMode
 {
 
-    org.firstinspires.ftc.teamcode.vision.RingSense1.SkystoneDeterminationPipeline pipeline;
+    org.firstinspires.ftc.teamcode.vision.ShootAuto.SkystoneDeterminationPipeline pipeline;
     public DcMotor LeftFront  = null;
     public DcMotor LeftRear   = null;
     public DcMotor RightFront = null;

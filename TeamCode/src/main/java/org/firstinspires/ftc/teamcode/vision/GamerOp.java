@@ -1,6 +1,6 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.vision;
 
-        import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.BNO055IMU;
         import com.qualcomm.robotcore.eventloop.opmode.OpMode;
         import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
         import com.qualcomm.robotcore.hardware.DcMotor;
@@ -14,7 +14,6 @@ package org.firstinspires.ftc.teamcode;
 
 @TeleOp
 public class GamerOp extends OpMode {
-
 
 //------------------------------GyroSetup?--------------------------------------------------------\\
 
@@ -30,9 +29,12 @@ public class GamerOp extends OpMode {
     public DcMotor RightRear  = null;
     public DcMotor Intake     = null;
     public DcMotor Shooter    = null;
+    public DcMotor WobbleArm  = null;
     public Servo   ShootAngle = null;
     public Servo   ShooterArm = null;
-    public DcMotor WobbleArm  = null;
+    public Servo   WobbleGrab = null;
+
+
 
 //------------------------------InitLoop----------------------------------------------------------\\
 
@@ -48,9 +50,10 @@ public class GamerOp extends OpMode {
         RightRear   = hardwareMap.dcMotor.get (" BackRight   ");
         Intake      = hardwareMap.dcMotor.get ( "Intake      ");
         Shooter     = hardwareMap.dcMotor.get ( "Shooter     ");
+        WobbleArm   = hardwareMap.dcMotor.get ( "WobbleArm   ");
         ShooterArm  = hardwareMap.servo.get   ( "ShooterArm  ");
         ShootAngle  = hardwareMap.servo.get   ( "ShooterAngle");
-
+        WobbleGrab  = hardwareMap.servo.get   ( "WobbleGrab  ");
 
 //------------------------------Direction---------------------------------------------------------\\
 
@@ -63,7 +66,6 @@ public class GamerOp extends OpMode {
         Shooter   .setDirection (DcMotorSimple.Direction.REVERSE);
         WobbleArm .setDirection (DcMotorSimple.Direction.REVERSE);
 
-
         LeftFront .setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         LeftRear  .setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         RightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -74,7 +76,6 @@ public class GamerOp extends OpMode {
         RightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         RightRear .setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         WobbleArm .setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
 
         LeftFront  .setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         LeftRear   .setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -169,11 +170,12 @@ public class GamerOp extends OpMode {
 
 //------------------------------Intake/Belt-------------------------------------------------------\\
 
-        if(gamepad1.right_trigger > .1)
+        if      (gamepad1.right_trigger > .1)
         {
             Intake.setPower(1);
+            ShootAngle.setPosition(1);
         }
-        else if (gamepad1.left_trigger > .1)
+        else if (gamepad1.left_trigger  > .1)
         {
             Intake.setPower(-1);
         }
@@ -221,32 +223,50 @@ public class GamerOp extends OpMode {
         if (gamepad2.dpad_up)
         {
 
-            ShootAngle.setPosition(0.735);
+            ShootAngle.setPosition(0.78);
 
         }
         else if (gamepad2.dpad_down)
         {
 
-            ShootAngle.setPosition(1);
+            ShootAngle.setPosition(.95);
 
         }
         else if (gamepad2.dpad_right)
         {
 
-            ShootAngle.setPosition(.75);
+            ShootAngle.setPosition(.85);
 
         }
         else if (gamepad2.dpad_left)
         {
 
-            ShootAngle.setPosition(.75);
+            ShootAngle.setPosition(.8);
 
         }
 
-
 //------------------------------Wobble------------------------------------------------------------\\
 
-        if(gamepad2.a)
+        if(gamepad1.dpad_up)
+        {
+            WobbleArm.setPower(.5);
+        }
+        else if (gamepad1.dpad_down)
+        {
+            WobbleArm.setPower(-.5);
+        }else{WobbleArm.setPower(0);}
+
+        if(gamepad1.dpad_left)
+        {
+            WobbleGrab.setPosition(.45);
+        }
+        else if (gamepad1.dpad_right)
+        {
+            WobbleGrab.setPosition(0);
+        }
+
+
+        /*if(gamepad2.a)
         {
             double Target = 0;
             double Angle  = WobbleArm.getCurrentPosition();
@@ -270,13 +290,9 @@ public class GamerOp extends OpMode {
             {
                 WobbleArm.setPower(0);
             }
-        }
-
-
+        }*/
 
     }
-
-
 
     private void resetAngle()
     {
@@ -284,10 +300,6 @@ public class GamerOp extends OpMode {
 
         globalAngle = 0;
     }
-    /**
-     * Get current cumulative angle rotation from last reset.
-     * @return Angle in degrees. + = left, - = right.
-     */
     private double getAngle()
     {
         // We experimentally determined the Z axis is the axis we want to use for heading angle.
