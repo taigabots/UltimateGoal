@@ -243,25 +243,39 @@ public class WobbleAutoFast extends LinearOpMode
             Shooter.setPower(0);
             ShootAngle.setPosition(1);
             Drive(10,-1);
-            Strafe(25,-.75);
+            Strafe(32,-.5);
             // ^^ strafe
-            Drive(48,-1);
+            Drive(50,-1);
             // ^^ STUFF
             WobbleArm.setPower(-.75);
             sleep(1000);
             WobbleArm.setPower(0);
             WobbleGrab.setPosition(0);
-            Drive(7,.5);
-            Drive(7,.75);
-            Drive(20,1);
-            Drive(10,.75);
-            Drive(10,.5);
             sleep(250);
+            Drive(5,.5);
+            Strafe(5,.75);
+            // ^^ drives off wobble
+            Drive(43,1);
+            // ^^ drives down to 2nd wobble
+            rotate(165,.6);
+            // ^^ rotates around
+            Strafe(9,-.25);
+            // ^^ lines up with the wobble HEHE
+            Drive(8,-.25);
+            sleep(100);
+            WobbleGrab.setPosition(.45);
+            sleep(200);
+            Drive(70,.75);
+            rotate(130,.6);
+            WobbleGrab.setPosition(0);
+            Drive(15,1);
+
+            /*
             rotate(145,.5);
             Drive(4,-.35);
             WobbleGrab.setPosition(.45);
             sleep(250);
-            rotate(45,.3);
+            rotate(45,.3);*/
 
             /*Drive(65,-.75);
             // ^^ drives towards wobble dropzone PREETY ZOOMY
