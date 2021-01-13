@@ -223,7 +223,7 @@ public class GamerOp extends OpMode {
         if (gamepad2.dpad_up)
         {
 
-            ShootAngle.setPosition(0.78);
+            ShootAngle.setPosition(0.775);
 
         }
         else if (gamepad2.dpad_down)
@@ -235,13 +235,13 @@ public class GamerOp extends OpMode {
         else if (gamepad2.dpad_right)
         {
 
-            ShootAngle.setPosition(.85);
+            ShootAngle.setPosition(.8);
 
         }
         else if (gamepad2.dpad_left)
         {
 
-            ShootAngle.setPosition(.8);
+            ShootAngle.setPosition(.79);
 
         }
 

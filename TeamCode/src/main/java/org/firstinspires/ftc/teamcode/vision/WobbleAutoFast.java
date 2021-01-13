@@ -165,10 +165,10 @@ public class WobbleAutoFast extends LinearOpMode
             telemetry.update();
 
             ShooterArm.setPosition(0.259);
-            ShootAngle.setPosition(0.800);
+            ShootAngle.setPosition(0.775);
             WobbleGrab.setPosition(0.450);
             // ^^ sets up servos for run
-            Drive(56,-.75);
+            Drive(50,-.75);
             // ^^ drives past rings
             Strafe(20,-.75);
             // ^^ strafe to line up ring shots
@@ -194,15 +194,15 @@ public class WobbleAutoFast extends LinearOpMode
             Intake.setPower(1);
 //---------------------- ^ GOOD DO NOT CHANGE ^ --------------------------------------------------\\
             // ^^ shots 3 rings shoots the saplings into the high goal PRETTY COOL
-            Strafe(1.5,-.5);
+            Strafe(3,-.5);
             // ^^ Strafe For the 4 stack so it can eat up them yummy yummy saplings
-            Drive (20,  .25);
+            Drive (16,  .25);
             Shooter.setPower(1);
             sleep(1250);
             // ^^ Intake the 4 stack ony 3 sometimes 2 cus intake garbo
             Strafe(3,.25);
             sleep(250);
-            ShootAngle.setPosition(.8);
+            ShootAngle.setPosition(.79);
 
             sleep(500);
             ShooterArm.setPosition(0.005);
@@ -224,12 +224,12 @@ public class WobbleAutoFast extends LinearOpMode
             Shooter.setPower(0);
             // ^^ SHOOTS 3 MORE EPIC GAMER 36 points if gets 3
 
-            Strafe(2,-.25);
+            Strafe(3,-.25);
             Intake.setPower(1);
             Drive(10,.25);
             Shooter.setPower(1);
             sleep(550);
-            ShootAngle.setPosition(.8);
+            ShootAngle.setPosition(.79);
             sleep(250);
             Intake.setPower(0);
             ShooterArm.setPosition(.259);
@@ -243,9 +243,9 @@ public class WobbleAutoFast extends LinearOpMode
             Shooter.setPower(0);
             ShootAngle.setPosition(1);
             Drive(10,-1);
-            Strafe(32,-.5);
+            Strafe(30,-.5);
             // ^^ strafe
-            Drive(50,-1);
+            Drive(53,-1);
             // ^^ STUFF
             WobbleArm.setPower(-.75);
             sleep(1000);
@@ -255,56 +255,24 @@ public class WobbleAutoFast extends LinearOpMode
             Drive(5,.5);
             Strafe(5,.75);
             // ^^ drives off wobble
-            Drive(43,1);
+            Drive(48,1);
             // ^^ drives down to 2nd wobble
             rotate(165,.6);
             // ^^ rotates around
-            Strafe(9,-.25);
+            Strafe(7,-.25);
             // ^^ lines up with the wobble HEHE
-            Drive(8,-.25);
+            Drive(9,-.25);
             sleep(100);
             WobbleGrab.setPosition(.45);
             sleep(200);
-            Drive(70,.75);
-            rotate(130,.6);
+            Drive(67,.75);
+            rotate(124,.6);
             WobbleGrab.setPosition(0);
-            Drive(15,1);
+            Drive(17,1);
 
-            /*
-            rotate(145,.5);
-            Drive(4,-.35);
-            WobbleGrab.setPosition(.45);
-            sleep(250);
-            rotate(45,.3);*/
 
-            /*Drive(65,-.75);
-            // ^^ drives towards wobble dropzone PREETY ZOOMY
-            Strafe(31,-.5);
-            // ^^ lines up robot for woblle
-            WobbleArm.setPower(-.75);
-            sleep(1400);
-            WobbleGrab.setPosition(0);
-            sleep(100);
-            // ^^ Drops wobble down
-            Drive(55,1);
-            // ^^ drives down half feild to go get 2nd wobble
-            rotate(140,.6);
-            // ^^ turns around for wobble goal take 2nd one
-            Drive(6,-.3);
-            // ^^ DRIVES INTO 2ND WOBBLE
-            WobbleGrab.setPosition(.45);
-            sleep(250);*/
-           /* // ^^ GRABS WOBBLE
-            rotate(22,.6);
-            // ^^ ROTATES TOWARDS DROPZONE WITH WOBBLE
-            Drive(65,.75);
-            // ^^ DRIVES TO DROPZONE WITH WOBBLE
-            rotate(120,1);
-            // ^^ TURNS TO DROPZONE WITH WOBBLE
-            WobbleGrab.setPosition(0);
-            sleep(100);
-            Drive(15,.5);
-*/
+
+
 
 
 
