@@ -285,6 +285,37 @@ public class WobbleAutoFast extends LinearOpMode
             telemetry.addData("Rings", "One");
             telemetry.update();
 
+            ShooterArm.setPosition(0.259);
+            ShootAngle.setPosition(0.775);
+            WobbleGrab.setPosition(0.450);
+            // Set for run
+            Drive(84,-.75);
+            Strafe(20,-.75);
+            WobbleArm.setPower(-.75);
+            sleep(1000);
+            WobbleArm.setPower(0);
+            WobbleGrab.setPosition(0);
+            sleep(1000);
+            WobbleArm.setPower(.75);
+            Shooter.setPower(1);
+            Drive(35,.35);
+            ShootAngle.setPosition(.775);
+            ShooterArm.setPosition(0);
+            sleep(500);
+            ShooterArm.setPosition(.259);
+            sleep(500);
+            ShooterArm.setPosition(0);
+            sleep(750);
+            ShooterArm.setPosition(.259);
+            sleep(500);
+            ShooterArm.setPosition(0);
+            sleep(1000);
+            Intake.setPower(1);
+            Drive(4,.25);
+            ShooterArm.setPosition(.259);
+            sleep(500);
+            ShooterArm.setPosition(0);
+            Drive(35,.75);
         }
         else
         {
