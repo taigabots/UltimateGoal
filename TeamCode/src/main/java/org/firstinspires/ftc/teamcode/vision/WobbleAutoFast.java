@@ -168,7 +168,7 @@ public class WobbleAutoFast extends LinearOpMode
             ShootAngle.setPosition(0.775);
             WobbleGrab.setPosition(0.450);
             // ^^ sets up servos for run
-            Drive(50,-.75);
+            Drive(53, -.75);
             // ^^ drives past rings
             Strafe(20,-.75);
             // ^^ strafe to line up ring shots
@@ -196,13 +196,13 @@ public class WobbleAutoFast extends LinearOpMode
             // ^^ shots 3 rings shoots the saplings into the high goal PRETTY COOL
             Strafe(3,-.5);
             // ^^ Strafe For the 4 stack so it can eat up them yummy yummy saplings
-            Drive (16,  .25);
+            Drive(13, .25);
             Shooter.setPower(1);
             sleep(1250);
             // ^^ Intake the 4 stack ony 3 sometimes 2 cus intake garbo
             Strafe(3,.25);
             sleep(250);
-            ShootAngle.setPosition(.79);
+            ShootAngle.setPosition(.78);
 
             sleep(500);
             ShooterArm.setPosition(0.005);
@@ -226,10 +226,10 @@ public class WobbleAutoFast extends LinearOpMode
 
             Strafe(3,-.25);
             Intake.setPower(1);
-            Drive(10,.25);
+            Drive(7, .25);
             Shooter.setPower(1);
             sleep(550);
-            ShootAngle.setPosition(.79);
+            ShootAngle.setPosition(.78);
             sleep(250);
             Intake.setPower(0);
             ShooterArm.setPosition(.259);
@@ -245,7 +245,7 @@ public class WobbleAutoFast extends LinearOpMode
             Drive(10,-1);
             Strafe(30,-.5);
             // ^^ strafe
-            Drive(53,-1);
+            Drive(48, -1);
             // ^^ STUFF
             WobbleArm.setPower(-.75);
             sleep(1000);
@@ -255,11 +255,11 @@ public class WobbleAutoFast extends LinearOpMode
             Drive(5,.5);
             Strafe(5,.75);
             // ^^ drives off wobble
-            Drive(48,1);
+            Drive(55, 1);
             // ^^ drives down to 2nd wobble
             rotate(165,.6);
             // ^^ rotates around
-            Strafe(7,-.25);
+            Strafe(9, -.25);
             // ^^ lines up with the wobble HEHE
             Drive(9,-.25);
             sleep(100);
@@ -278,44 +278,85 @@ public class WobbleAutoFast extends LinearOpMode
 
 
         }
-        else if (pipeline.getAnalysis()>pipeline.ONE_RING_THRESHOLD)
-        {
+        else if (pipeline.getAnalysis()>pipeline.ONE_RING_THRESHOLD) {
             webcam.stopStreaming();
-            telemetry.addData("square","middle ");
+            telemetry.addData("square", "middle ");
             telemetry.addData("Rings", "One");
             telemetry.update();
 
             ShooterArm.setPosition(0.259);
-            ShootAngle.setPosition(0.775);
+            ShootAngle.setPosition(0.785);
             WobbleGrab.setPosition(0.450);
             // Set for run
-            Drive(84,-.75);
-            Strafe(20,-.75);
+            Drive(80, -.5);
+            // ^^ drives down to dropzone
+            Strafe(21, -.5);
+            // ^^ strafes into dropzone
             WobbleArm.setPower(-.75);
             sleep(1000);
             WobbleArm.setPower(0);
             WobbleGrab.setPosition(0);
-            sleep(1000);
-            WobbleArm.setPower(.75);
             Shooter.setPower(1);
-            Drive(35,.35);
-            ShootAngle.setPosition(.775);
-            ShooterArm.setPosition(0);
             sleep(500);
+            // ^^ Drops wobble
+            Drive(25, .5);
+            // ^^ drives to shooting area
+            WobbleArm.setPower(.75);
+            ShootAngle.setPosition(.785);
             ShooterArm.setPosition(.259);
             sleep(500);
+            WobbleArm.setPower(0);
+            // ^^ sets up stuff to shoot 3 rings
             ShooterArm.setPosition(0);
-            sleep(750);
+            sleep(300);
+            // ^^ shoots 1
             ShooterArm.setPosition(.259);
-            sleep(500);
+            sleep(300);
+            // ^^ reloads 1
+            ShooterArm.setPosition(0);
+            sleep(300);
+            // ^^ shoots 2
+            ShooterArm.setPosition(.259);
+            sleep(300);
+            // ^^ reloads 2
+            ShooterArm.setPosition(0);
+            sleep(300);
+            Intake.setPower(1);
+            Shooter.setPower(0);
+            ShootAngle.setPosition(1);
+            // ^^ setups stuff for intake stack
+            sleep(1000);
+            Drive(10, .25);
+            Shooter.setPower(1);
             ShooterArm.setPosition(0);
             sleep(1000);
-            Intake.setPower(1);
-            Drive(4,.25);
+            ShootAngle.setPosition(.78);
             ShooterArm.setPosition(.259);
-            sleep(500);
+            sleep(250);
             ShooterArm.setPosition(0);
-            Drive(35,.75);
+            Intake.setPower(0);
+            WobbleArm.setPower(-.75);
+            sleep(250);
+            rotate(165, .6);
+            Shooter.setPower(0);
+            WobbleArm.setPower(0);
+            //rotate for other wobble
+            Strafe(10, .5);
+            // ^^ strafes to line up with wobble
+            Drive(13, -.25);
+            sleep(250);
+            WobbleGrab.setPosition(.45);
+            sleep(250);
+            Strafe(5, .5);
+            // ^^ stuff
+            Drive(46, .5);
+            // ^^ drives to dropzone
+            rotate(200, .5);
+            // ^^ rotates wobble into dropzone
+            WobbleGrab.setPosition(0);
+            sleep(300);
+            Drive(10, .5);
+
         }
         else
         {
