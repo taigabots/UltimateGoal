@@ -81,6 +81,7 @@ public class WobbleAutoFast extends LinearOpMode
 
 //------------------------------Encoder---------------------------------------------------------\\
 
+
         LeftFront .setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         LeftRear  .setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         RightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
