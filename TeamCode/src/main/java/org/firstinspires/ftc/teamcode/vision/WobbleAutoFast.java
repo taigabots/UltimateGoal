@@ -47,7 +47,6 @@ public class WobbleAutoFast extends LinearOpMode
     public DcMotor Intake     = null;
     public DcMotor WobbleArm  = null;
     public Servo   WobbleGrab = null;
-
     double WHEEL_CIRCUMFERENCE = 3.78;
     double ENCODER_TICKS_PER_ROTATION = 537.6;
 
@@ -59,20 +58,20 @@ public class WobbleAutoFast extends LinearOpMode
 
 //------------------------------PhoneHardWareMap--------------------------------------------------\\
 
-        LeftRear    = hardwareMap.dcMotor.get (" BackLeft   ");
-        LeftFront   = hardwareMap.dcMotor.get (" FrontLeft  ");
-        RightFront  = hardwareMap.dcMotor.get (" FrontRight ");
-        RightRear   = hardwareMap.dcMotor.get (" BackRight  ");
-        Intake      = hardwareMap.dcMotor.get ( "Intake      ");
-        Shooter     = hardwareMap.dcMotor.get ( "Shooter     ");
-        ShooterArm  = hardwareMap.servo.get   ( "ShooterArm  ");
-        ShootAngle  = hardwareMap.servo.get   ( "ShooterAngle");
-        WobbleArm   = hardwareMap.dcMotor.get ( "WobbleArm    ");
-        WobbleGrab  = hardwareMap.servo.get   ( "WobbleGrab    ");
+        LeftRear = hardwareMap.dcMotor.get(" BackLeft    ");
+        LeftFront = hardwareMap.dcMotor.get(" FrontLeft   ");
+        RightFront = hardwareMap.dcMotor.get(" FrontRight  ");
+        RightRear = hardwareMap.dcMotor.get(" BackRight   ");
+        Intake = hardwareMap.dcMotor.get("Intake      ");
+        Shooter = hardwareMap.dcMotor.get("Shooter     ");
+        WobbleArm = hardwareMap.dcMotor.get("WobbleArm   ");
+        ShooterArm = hardwareMap.servo.get("ShooterArm  ");
+        ShootAngle = hardwareMap.servo.get("ShooterAngle");
+        WobbleGrab = hardwareMap.servo.get("WobbleGrab  ");
 
 //------------------------------Direction---------------------------------------------------------\\
         //Reverse spins motors to the right Forward spins motors to the left
-        LeftFront .setDirection (DcMotorSimple.Direction.FORWARD);
+        LeftFront.setDirection(DcMotorSimple.Direction.FORWARD);
         LeftRear  .setDirection (DcMotorSimple.Direction.FORWARD);
         RightFront.setDirection (DcMotorSimple.Direction.REVERSE);
         RightRear .setDirection (DcMotorSimple.Direction.REVERSE);
@@ -151,85 +150,55 @@ public class WobbleAutoFast extends LinearOpMode
 
         sleep(1000);
 
-
-
-
-
-
-        if      (pipeline.getAnalysis()>pipeline.FOUR_RING_THRESHOLD)
-        {
+        if (pipeline.getAnalysis() > pipeline.FOUR_RING_THRESHOLD) {
 
             webcam.stopStreaming();
-            telemetry.addData("square","Far");
+            telemetry.addData("square", "Far");
             telemetry.addData("Ring", "FOUR");
             telemetry.update();
 
+
             ShooterArm.setPosition(0.259);
             ShootAngle.setPosition(0.775);
-            WobbleGrab.setPosition(0.450);
+            WobbleGrab.setPosition(0.38);
             // ^^ sets up servos for run
-            Drive(53, -.75);
+            Drive(55, -.75);
             // ^^ drives past rings
-            Strafe(20,-.75);
-            // ^^ strafe to line up ring shots
-            Shooter.setPower(1);
-            sleep(500);
-            // ^^ revs up motor and flips moble back
-            ShooterArm.setPosition(0.005);
-            // ^^ shoot 2nd ring
-            sleep(250);
-            ShooterArm.setPosition(.259);
-            sleep(250);
-            ShooterArm.setPosition(0.005);
-            // ^^ shoot 1st ring
-            sleep(250);
-            ShooterArm.setPosition(.259);
-            sleep(250);
-            ShooterArm.setPosition(0.005);
-            // ^^ shoot 3rd ring
-            sleep(250);
-            ShooterArm.setPosition(.259);
-            Shooter.setPower(0);
-            ShootAngle.setPosition(1);
             Intake.setPower(1);
+            Strafe(20, -.75);
+            Shooter.setPower(1);
+            ShootAngle.setPosition(.78);
+            ShooterArm.setPosition(.259);
+            // ^^ strafe to line up ring shots
+            Intake.setPower(0);
+            Drive(2, .75);
+            // ^^ drives so robot straight
+            Shoot(3, 1, .79);
+            Shooter.setPower(0);
+            ShooterArm.setPosition(.259);
+            // ^^ shoots preloaded 3
+            Intake.setPower(.75);
+            ShootAngle.setPosition(1);
+            // ^^ PREPARES TO INTAKE
 //---------------------- ^ GOOD DO NOT CHANGE ^ --------------------------------------------------\\
             // ^^ shots 3 rings shoots the saplings into the high goal PRETTY COOL
-            Strafe(3,-.5);
             // ^^ Strafe For the 4 stack so it can eat up them yummy yummy saplings
-            Drive(13, .25);
+            Drive(8, .25);
             Shooter.setPower(1);
-            sleep(1250);
+            sleep(1000);
             // ^^ Intake the 4 stack ony 3 sometimes 2 cus intake garbo
-            Strafe(3,.25);
-            sleep(250);
             ShootAngle.setPosition(.78);
-
-            sleep(500);
-            ShooterArm.setPosition(0.005);
-            // ^^ aims shooter and stop intake
-            sleep(250);
-            Intake.setPower(0);
-            ShooterArm.setPosition(.259);
-            sleep(250);
-            ShooterArm.setPosition(0.005);
-            //^^ shoot 1 reset
-            sleep(250);
-            ShooterArm.setPosition(.259);
-            sleep(250);
-            ShooterArm.setPosition(0.005);
-            //^^ shoot  2 reset
-            sleep(250);
-            ShooterArm.setPosition(.259);
-            ShootAngle.setPosition(1);
+            // ^^ strafe to shoot
+            Shoot(3, 1, .78);
+            // ^^ shoots 6
             Shooter.setPower(0);
             // ^^ SHOOTS 3 MORE EPIC GAMER 36 points if gets 3
-
-            Strafe(3,-.25);
-            Intake.setPower(1);
+            ShootAngle.setPosition(1);
+            Intake.setPower(.75);
             Drive(7, .25);
             Shooter.setPower(1);
             sleep(550);
-            ShootAngle.setPosition(.78);
+            ShootAngle.setPosition(.785);
             sleep(250);
             Intake.setPower(0);
             ShooterArm.setPosition(.259);
@@ -242,43 +211,35 @@ public class WobbleAutoFast extends LinearOpMode
             sleep(500);
             Shooter.setPower(0);
             ShootAngle.setPosition(1);
-            Drive(10,-1);
-            Strafe(30,-.5);
+            Drive(10, -1);
+            Strafe(35, -.5);
             // ^^ strafe
-            Drive(48, -1);
+            Drive(44, -1);
             // ^^ STUFF
             WobbleArm.setPower(-.75);
-            sleep(1000);
+            sleep(1500);
             WobbleArm.setPower(0);
             WobbleGrab.setPosition(0);
             sleep(250);
-            Drive(5,.5);
-            Strafe(5,.75);
+            Drive(5, .5);
+            Strafe(7, .75);
             // ^^ drives off wobble
-            Drive(55, 1);
+            Drive(52, 1);
             // ^^ drives down to 2nd wobble
             rotate(165,.6);
             // ^^ rotates around
-            Strafe(9, -.25);
+            Strafe(12, -.25);
             // ^^ lines up with the wobble HEHE
-            Drive(9,-.25);
+            Drive(6, -.25);
             sleep(100);
-            WobbleGrab.setPosition(.45);
+            WobbleGrab.setPosition(.38);
             sleep(200);
-            Drive(67,.75);
-            rotate(124,.6);
+            Drive(67, .75);
+            rotate(124, .6);
             WobbleGrab.setPosition(0);
-            Drive(17,1);
+            Drive(40, 1);
 
-
-
-
-
-
-
-
-        }
-        else if (pipeline.getAnalysis()>pipeline.ONE_RING_THRESHOLD) {
+        } else if (pipeline.getAnalysis() > pipeline.ONE_RING_THRESHOLD) {
             webcam.stopStreaming();
             telemetry.addData("square", "middle ");
             telemetry.addData("Rings", "One");
@@ -286,14 +247,14 @@ public class WobbleAutoFast extends LinearOpMode
 
             ShooterArm.setPosition(0.259);
             ShootAngle.setPosition(0.785);
-            WobbleGrab.setPosition(0.450);
+            WobbleGrab.setPosition(0.38);
             // Set for run
             Drive(80, -.5);
             // ^^ drives down to dropzone
-            Strafe(21, -.5);
+            Strafe(13, -.5);
             // ^^ strafes into dropzone
             WobbleArm.setPower(-.75);
-            sleep(1000);
+            sleep(1500);
             WobbleArm.setPower(0);
             WobbleGrab.setPosition(0);
             Shooter.setPower(1);
@@ -302,7 +263,7 @@ public class WobbleAutoFast extends LinearOpMode
             Drive(25, .5);
             // ^^ drives to shooting area
             WobbleArm.setPower(.75);
-            ShootAngle.setPosition(.785);
+            ShootAngle.setPosition(.79);
             ShooterArm.setPosition(.259);
             sleep(500);
             WobbleArm.setPower(0);
@@ -325,14 +286,15 @@ public class WobbleAutoFast extends LinearOpMode
             Shooter.setPower(0);
             ShootAngle.setPosition(1);
             // ^^ setups stuff for intake stack
-            sleep(1000);
+            sleep(500);
             Drive(10, .25);
             Shooter.setPower(1);
+            sleep(220);
             ShooterArm.setPosition(0);
             sleep(1000);
-            ShootAngle.setPosition(.78);
+            ShootAngle.setPosition(.79);
             ShooterArm.setPosition(.259);
-            sleep(250);
+            sleep(850);
             ShooterArm.setPosition(0);
             Intake.setPower(0);
             WobbleArm.setPower(-.75);
@@ -341,45 +303,108 @@ public class WobbleAutoFast extends LinearOpMode
             Shooter.setPower(0);
             WobbleArm.setPower(0);
             //rotate for other wobble
-            Strafe(10, .5);
+            Strafe(17, .5);
             // ^^ strafes to line up with wobble
             Drive(13, -.25);
             sleep(250);
-            WobbleGrab.setPosition(.45);
+            WobbleGrab.setPosition(.38);
             sleep(250);
-            Strafe(5, .5);
             // ^^ stuff
             Drive(46, .5);
             // ^^ drives to dropzone
-            rotate(200, .5);
+            rotate(-150, .5);
             // ^^ rotates wobble into dropzone
             WobbleGrab.setPosition(0);
             sleep(300);
             Drive(10, .5);
 
-        }
-        else
-        {
+        } else {
 
             webcam.stopStreaming();
-            telemetry.addData("square ","close");
-            telemetry.addData( "Rings","None");
+            telemetry.addData("square ", "close");
+            telemetry.addData("Rings", "None");
             telemetry.update();
+
+            ShooterArm.setPosition(0.259);
+            ShootAngle.setPosition(0.79);
+            WobbleGrab.setPosition(0.38);
+            sleep(100);
+            Drive(64, -.5);
+            Strafe(20, -.5);
+            sleep(100);
+            Shooter.setPower(1);
+            sleep(100);
+            ShootAngle.setPosition(.79);
+            sleep(100);
+            Drive(4, .5);
+            sleep(100);
+            ShooterArm.setPosition(.259);
+            sleep(400);
+            ShooterArm.setPosition(0);
+            sleep(400);
+            ShooterArm.setPosition(.259);
+            sleep(400);
+            ShooterArm.setPosition(0);
+            sleep(400);
+            ShooterArm.setPosition(.259);
+            sleep(400);
+            ShooterArm.setPosition(0);
+            sleep(400);
+            Strafe(24, -.5);
+            sleep(100);
+            Drive(2, .5);
+            sleep(100);
+            Drive(3, -.5);
+            Shooter.setPower(0);
+            sleep(500);
+            WobbleArm.setPower(-.75);
+            sleep(1500);
+            WobbleArm.setPower(0);
+            WobbleGrab.setPosition(0);
+            sleep(100);
+            Drive(10, .25);
+            Strafe(19, .25);
+            sleep(100);
+            rotate(180, .3);
+            Drive(20, -.25);
+            sleep(200);
+            WobbleGrab.setPosition(.38);
+            sleep(200);
+            Drive(28, .5);
+            sleep(100);
+            rotate(100, .6);
+            WobbleGrab.setPosition(0);
+            sleep(200);
+            Drive(5, .5);
+            sleep(100);
+            rotate(40, .6);
+            sleep(100);
+            Drive(13, -.5);
+            WobbleArm.setPower(.75);
+            sleep(400);
+            WobbleArm.setPower(0);
 
         }
 
     }
 
-    public void Drive   (int Inch, double Power) {
+    public void Shoot(double Shots, double Power, double Angle) {
+        for (double i = 0; i < Shots; i++) {
+            Shooter.setPower(Power);
+            ShootAngle.setPosition(Angle);
+            sleep(275);
+            ShooterArm.setPosition(0.005);
+            sleep(275);
+            ShooterArm.setPosition(.259);
+        }
+    }
+
+    public void Drive(int Inch, double Power) {
         int DistanceTicks = ConvertInchesToRotations(Inch);
         ResetEncoders();
 
-
-
-
-        while (Math.abs(RightRear.getCurrentPosition() )< DistanceTicks
-                && opModeIsActive())
-        {
+        while (Math.abs(RightRear.getCurrentPosition()) < DistanceTicks
+                && opModeIsActive()) {
 
             telemetry.addData("Target"   , DistanceTicks);
             telemetry.addData("EncoderLF",LeftFront .getCurrentPosition());
@@ -390,29 +415,7 @@ public class WobbleAutoFast extends LinearOpMode
             telemetry.addData("3 correction", correction);
             telemetry.update();
 
-            double LFSped = 1;
-            double LRSped = 1;
-            double RFSped = 1;
-            double RRSped = 1;
-
             correction = checkDirection();
-            if (Power > 0)
-            {
-                LFSped = .8;
-                LRSped = .8;
-                RFSped = 1;
-                RRSped = 1;
-            }
-            else
-            {
-                LFSped = -.89;
-                LRSped = -.89;
-                RFSped = -1;
-                RRSped = -1;
-            }
-
-
-
 
             LeftFront .setPower(Power - correction);
             RightFront.setPower(Power + correction);
@@ -536,14 +539,15 @@ public class WobbleAutoFast extends LinearOpMode
 
 
         while (Math.abs(LeftFront.getCurrentPosition() )< DistanceTicks
-                && opModeIsActive())
-        {
-            LeftFront .setPower(Power);
-            LeftRear  .setPower(-Power);
-            RightFront.setPower(-Power);
-            RightRear .setPower(Power);
-            telemetry.addData("Target"   , DistanceTicks);
-            telemetry.addData("EncoderLF",LeftFront .getCurrentPosition());
+                && opModeIsActive()) {
+
+            correction = 0;
+            LeftFront.setPower(+Power - correction);
+            LeftRear.setPower(-Power + correction);
+            RightFront.setPower(-Power - correction);
+            RightRear.setPower(+Power + correction);
+            telemetry.addData("Target", DistanceTicks);
+            telemetry.addData("EncoderLF", LeftFront.getCurrentPosition());
             telemetry.update();
         }
         LeftFront .setPower(0);
@@ -560,28 +564,26 @@ public class WobbleAutoFast extends LinearOpMode
     }
 
     public void ResetEncoders() {
-        LeftFront.setMode (DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        LeftRear.setMode  (DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        LeftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        LeftRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         RightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        RightRear.setMode (DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        RightRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        LeftFront.setMode (DcMotor.RunMode.RUN_USING_ENCODER);
-        LeftRear.setMode  (DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        LeftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        LeftRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         RightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        RightRear.setMode (DcMotor.RunMode.RUN_USING_ENCODER);
+        RightRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
     }
 
-    private void resetAngle()
-    {
+    private void resetAngle() {
         lastAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
         globalAngle = 0;
     }
 
-    private double getAngle()
-    {
+    private double getAngle() {
         // We experimentally determined the Z axis is the axis we want to use for heading angle.
         // We have to process the angle because the imu works in euler angles so the Z axis is
         // returned as 0 to +180 or 0 to -180 rolling back to -179 or +179 when rotation passes
@@ -603,8 +605,7 @@ public class WobbleAutoFast extends LinearOpMode
         return globalAngle;
     }
 
-    private double checkDirection()
-    {
+    private double checkDirection() {
         // The gain value determines how sensitive the correction is to direction changes.
         // You will have to experiment with your robot to get small smooth direction changes
         // to stay on a straight line.
@@ -622,9 +623,8 @@ public class WobbleAutoFast extends LinearOpMode
         return correction;
     }
 
-    private void rotate(int degrees, double power)
-    {
-        double  leftPower, rightPower;
+    private void rotate(int degrees, double power) {
+        double leftPower, rightPower;
 
         // restart imu movement tracking.
         resetAngle();
@@ -632,8 +632,7 @@ public class WobbleAutoFast extends LinearOpMode
         // getAngle() returns + when rotating counter clockwise (left) and - when rotating
         // clockwise (right).
 
-        if (degrees < 0)
-        {   // turn right.
+        if (degrees < 0) {   // turn right.
             leftPower = power;
             rightPower = -power;
 

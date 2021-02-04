@@ -23,17 +23,17 @@ public class GamerOp extends OpMode {
 
 //------------------------------InitSetup?--------------------------------------------------------\\
 
-    public DcMotor LeftFront  = null;
-    public DcMotor LeftRear   = null;
+    public DcMotor LeftFront = null;
+    public DcMotor LeftRear = null;
     public DcMotor RightFront = null;
-    public DcMotor RightRear  = null;
-    public DcMotor Intake     = null;
-    public DcMotor Shooter    = null;
-    public DcMotor WobbleArm  = null;
-    public Servo   ShootAngle = null;
-    public Servo   ShooterArm = null;
-    public Servo   WobbleGrab = null;
-
+    public DcMotor RightRear = null;
+    public DcMotor Intake = null;
+    public DcMotor Shooter = null;
+    public DcMotor WobbleArm = null;
+    public Servo ShootAngle = null;
+    public Servo ShooterArm = null;
+    public Servo WobbleGrab = null;
+    double ENCODER_TICKS_PER_ROTATION = 537.6;
 
 
 //------------------------------InitLoop----------------------------------------------------------\\
@@ -124,31 +124,23 @@ public class GamerOp extends OpMode {
 
             if (getAngle()> 4)
             {
-
                 GyroSquare = .375;
-
             }
             else if (getAngle()< -4)
             {
-
                 GyroSquare = -.375;
-
             }
             else
             {
-
                 GyroSquare = 0;
-
             }
 
         }
 
-        if(gamepad1.left_bumper)
-        {
-            Sped =  .75;
+        if (gamepad1.left_bumper) {
+            Sped = .75;
             SpedT = .4;
-        }else
-        {
+        } else {
             Sped = 1;
             SpedT = .75;
         }
@@ -157,8 +149,6 @@ public class GamerOp extends OpMode {
         {
             resetAngle();
         }
-
-
 
         LeftFront  .setPower( - D + S * Sped + T * SpedT + GyroSquare);
         LeftRear   .setPower( - D - S * Sped + T * SpedT + GyroSquare);
@@ -188,6 +178,7 @@ public class GamerOp extends OpMode {
         if      (gamepad2.right_trigger > .1)
         {
             Intake.setPower(1);
+            ShootAngle.setPosition(1);
         }
         else if (gamepad2.left_trigger  > .1)
         {
@@ -203,6 +194,7 @@ public class GamerOp extends OpMode {
         if (gamepad2.left_bumper)
         {
             Shooter.setPower(1);
+            ShootAngle.setPosition(.78);
         }
         else
         {
@@ -223,7 +215,7 @@ public class GamerOp extends OpMode {
         if (gamepad2.dpad_up)
         {
 
-            ShootAngle.setPosition(0.775);
+            ShootAngle.setPosition(0.79);
 
         }
         else if (gamepad2.dpad_down)
@@ -256,15 +248,11 @@ public class GamerOp extends OpMode {
             WobbleArm.setPower(-.5);
         }else{WobbleArm.setPower(0);}
 
-        if(gamepad1.dpad_left)
-        {
+        if (gamepad1.x) {
             WobbleGrab.setPosition(.45);
-        }
-        else if (gamepad1.dpad_right)
-        {
+        } else if (gamepad1.b) {
             WobbleGrab.setPosition(0);
         }
-
 
         /*if(gamepad2.a)
         {
@@ -294,14 +282,113 @@ public class GamerOp extends OpMode {
 
     }
 
-    private void resetAngle()
-    {
+    //--------------------------------METHODS---------------------------------------------------------\\
+    /*public void Strafe  (double Inch, double Power)  {
+        int DistanceTicks = ConvertInchesToRotations(Inch);
+
+        ResetEncoders();
+
+
+        while (Math.abs(LeftFront.getCurrentPosition() )< DistanceTicks
+                && opModeIsActive())
+        {
+            LeftFront .setPower(Power);
+            LeftRear  .setPower(-Power);
+            RightFront.setPower(-Power);
+            RightRear .setPower(Power);
+            telemetry.addData("Target"   , DistanceTicks);
+            telemetry.addData("EncoderLF",LeftFront .getCurrentPosition());
+            telemetry.update();
+        }
+        LeftFront .setPower(0);
+        RightFront.setPower(0);
+        LeftRear  .setPower(0);
+        RightRear .setPower(0);
+
+
+    }
+    public void Drive   (int Inch, double Power)     {
+        int DistanceTicks = ConvertInchesToRotations(Inch);
+        ResetEncoders();
+
+
+
+
+        while (Math.abs(RightRear.getCurrentPosition() )< DistanceTicks
+                && opModeIsActive())
+        {
+
+            telemetry.addData("Target"   , DistanceTicks);
+            telemetry.addData("EncoderLF",LeftFront .getCurrentPosition());
+            telemetry.addData("EncoderLR",LeftRear  .getCurrentPosition());
+            telemetry.addData("EncoderRR",RightRear .getCurrentPosition());
+            telemetry.addData("1 imu heading", lastAngles.firstAngle);
+            telemetry.addData("2 global heading", globalAngle);
+            telemetry.addData("3 correction", correction);
+            telemetry.update();
+
+            double LFSped = 1;
+            double LRSped = 1;
+            double RFSped = 1;
+            double RRSped = 1;
+
+            correction = checkDirection();
+            if (Power > 0)
+            {
+                LFSped = .8;
+                LRSped = .8;
+                RFSped = 1;
+                RRSped = 1;
+            }
+            else
+            {
+                LFSped = -.89;
+                LRSped = -.89;
+                RFSped = -1;
+                RRSped = -1;
+            }
+
+
+
+
+            LeftFront .setPower(Power - correction);
+            RightFront.setPower(Power + correction);
+            LeftRear  .setPower(Power - correction);
+            RightRear .setPower(Power + correction);
+
+        }
+        LeftFront .setPower(0);
+        RightFront.setPower(0);
+        LeftRear  .setPower(0);
+        RightRear .setPower(0);
+
+    }*/
+    public void ResetEncoders() {
+        LeftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        LeftRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        RightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        RightRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        LeftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        LeftRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        RightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        RightRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
+    }
+
+    public int ConvertInchesToRotations(double Inch) {
+        double Rotations = Inch / 11.87;
+        return (int) (Rotations * ENCODER_TICKS_PER_ROTATION);
+    }
+
+    private void resetAngle() {
         lastAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
         globalAngle = 0;
     }
-    private double getAngle()
-    {
+
+    private double getAngle() {
         // We experimentally determined the Z axis is the axis we want to use for heading angle.
         // We have to process the angle because the imu works in euler angles so the Z axis is
         // returned as 0 to +180 or 0 to -180 rolling back to -179 or +179 when rotation passes
@@ -322,5 +409,24 @@ public class GamerOp extends OpMode {
 
         return globalAngle;
     }
+
+    private double checkDirection() {
+        // The gain value determines how sensitive the correction is to direction changes.
+        // You will have to experiment with your robot to get small smooth direction changes
+        // to stay on a straight line.
+        double correction, angle, gain = .05;
+
+        angle = getAngle();
+
+        if (angle == 0)
+            correction = 0;             // no adjustment.
+        else
+            correction = -angle;        // reverse sign of angle for correction.
+
+        correction = correction * gain;
+
+        return correction;
+    }
+
 
 }
